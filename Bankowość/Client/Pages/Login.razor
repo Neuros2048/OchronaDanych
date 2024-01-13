@@ -1,0 +1,32 @@
+﻿@page "/login"
+@inject NavigationManager NavigationManager
+<h3>Login</h3>
+
+
+<EditForm Model="userLoginDTO" OnValidSubmit="HandleLogin">
+
+    <p>Email:</p>
+    <InputText @bind-Value="userLoginDTO.Email" id="email"></InputText>
+    <p>Password:</p>
+    <InputText @bind-Value="userLoginDTO.Password" id="password" type="password"></InputText>
+
+    <button type="submit">Login In</button>
+
+</EditForm>
+
+@if (!string.IsNullOrEmpty(message))
+{
+    <p>@message</p>
+}
+
+@code {
+
+    private UserLoginDTO userLoginDTO = new UserLoginDTO();
+    private string message = string.Empty;
+
+    private async Task HandleLogin()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+
+}
