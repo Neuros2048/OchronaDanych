@@ -1,5 +1,137 @@
-﻿<h3>Register</h3>
+﻿@page "/Register"
+
+<h3>Register</h3>
+
+@inject IAuthService AuthService
+@inject ILocalStorageService LocalStorageService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+
+
+
+
+    
+<div class="page-header min-vh-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column mx-lg-0 mx-auto">
+                <div class="card z-index-0">
+                    <div class="card-header text-center pt-4">
+                    <h5>
+                        
+                        <span >Zarejestruj się z</span>
+                       
+              
+                    </h5>
+                    </div>
+                    
+                        <div class="mt-2 position-relative text-center">
+                            <p class="card-header text-center pt-4">
+                            
+                                <span >lub</span>
+                            
+                          
+                     
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <EditForm Model="userRegisterDTO" OnValidSubmit="HandleRegistration">
+
+
+                            <div class="mb-3">
+                                <p>Email:</p>
+                                <InputText @bind-Value="userRegisterDTO.Email" id="email" class="form-control form-control-lg"></InputText>
+                            </div>
+                            <div class="mb-3">
+                            <p>
+                                
+                                    <span >Nazwa użytkownika:</span>
+                                
+                               
+                                
+                            </p>
+                                <InputText @bind-Value="userRegisterDTO.Username" id="username" class="form-control form-control-lg"></InputText>
+                            </div>
+                            <div class="mb-3">
+                            <p>
+                                
+                                
+                                    <span >Hasło:</span>
+                                
+                           
+                        
+                            </p>
+                                <InputText @bind-Value="userRegisterDTO.Password" id="password" class="form-control form-control-lg" type="password"></InputText>
+                            </div>
+                            <div class="mb-3">
+                            <p>
+                                
+                                
+                                    <span >Potwierdz hasło:</span>
+                                
+                              
+                              
+                            </p>
+                                <InputText @bind-Value="userRegisterDTO.ConfirmPassword" id="confirmPassword" class="form-control form-control-lg" type="password"></InputText>
+                            </div>
+                        <div class="mb-3 Danger">
+                            <p>
+                                    
+                            </p>
+                        </div>
+                            <div class="text-center">
+                            <button type="submit" class="btn bg-gradient-dark w-100 my-4 mb-2">
+                               
+                                
+                                    <span >Zajerestruj się</span>
+                                
+                                
+                               
+                            </button>
+                            </div>
+                        <p class="text-sm mt-3 mb-0">
+                            
+                            
+                                <span >Masz konto</span>
+                                <a href="login" class="text-dark font-weight-bolder">
+                                    <span >Zaloguj się</span>
+                                </a>
+                            
+                    </p>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+   
+
+
+
+
 
 @code {
+    UserRegisterDTO userRegisterDTO = new UserRegisterDTO();
+    string message = string.Empty;
+
+    async Task HandleRegistration()
+    {
+        var result = await AuthService.Register(userRegisterDTO);
+        if (result.Success)
+        {
+            NavigationManager.NavigateTo("Login");
+        }
+        else
+        {
+            message = result.Message;
+            userRegisterDTO.Password = "";
+            userRegisterDTO.ConfirmPassword = "";
+
+        }
+    }
+
 
 }
+

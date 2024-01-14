@@ -1,23 +1,29 @@
 ﻿@page "/login"
+
+@using Bankowosc.Client.Services
 @inject NavigationManager NavigationManager
+@inject IAuthService AuthService
+@inject ILocalStorageService LocalStorageService
+@inject AuthenticationStateProvider AuthenticationStateProvider
 <h3>Login</h3>
 
+<div>
+    <EditForm Model="userLoginDTO" OnValidSubmit="HandleLogin">
 
-<EditForm Model="userLoginDTO" OnValidSubmit="HandleLogin">
+        <p>Email:</p>
+        <InputText @bind-Value="userLoginDTO.Email" id="email"></InputText>
+        <p>Password:</p>
+        <InputText @bind-Value="userLoginDTO.Password" id="password" type="password"></InputText>
 
-    <p>Email:</p>
-    <InputText @bind-Value="userLoginDTO.Email" id="email"></InputText>
-    <p>Password:</p>
-    <InputText @bind-Value="userLoginDTO.Password" id="password" type="password"></InputText>
+        <button type="submit">Login In</button>
 
-    <button type="submit">Login In</button>
+    </EditForm>
 
-</EditForm>
-
-@if (!string.IsNullOrEmpty(message))
-{
-    <p>@message</p>
-}
+    @if (!string.IsNullOrEmpty(message))
+    {
+        <p>@message</p>
+    }
+</div>
 
 @code {
 
@@ -26,7 +32,18 @@
 
     private async Task HandleLogin()
     {
-        NavigationManager.NavigateTo("/");
+        var result = await AuthService.Login(userLoginDTO);
+        if (result.Success)
+        {
+            await LocalStorageService.SetItemAsync("authToken", result.Data);
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+    
+            NavigationManager.NavigateTo("Konto");
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/");
+        }
     }
 
 }

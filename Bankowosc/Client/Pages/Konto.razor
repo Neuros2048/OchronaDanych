@@ -1,6 +1,15 @@
 ﻿@page "/konto"
 
-<h3>Konto</h3>
+@inject IAuthService AuthService
+@inject ILocalStorageService LocalStorageService
+@using System.Security.Claims;
+@inherits LayoutComponentBase
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+
+@attribute [Authorize]
+
+<h3>Konto jestes zalogowany</h3>
 
 @code {
 

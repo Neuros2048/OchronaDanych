@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,13 +18,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Client\Bankowosc.Client.csproj" />
     <ProjectReference Include="..\Shared\Bankowosc.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Entities\EntitiesConfiguration\" />
     <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\.dockerignore">
+      <Link>.dockerignore</Link>
+    </Content>
   </ItemGroup>
 
 

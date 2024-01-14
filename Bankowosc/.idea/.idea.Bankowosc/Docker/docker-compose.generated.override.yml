@@ -1,0 +1,49 @@
+# This is a generated file. Not intended for manual editing.
+version: "3.8"
+services:
+  bank-client:
+    build:
+      context: "C:\\Users\\Jakub Wysocki\\Desktop\\projekt ogrona danych\\OchronaDanych\\\
+        Bankowosc\\Client"
+      dockerfile: "Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/../../../../../.nuget/packages/microsoft.aspnetcore.components.webassembly.devserver/7.0.15/tools/blazor-devserver.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+      NUGET_PACKAGES: "C:\\Users\\Jakub Wysocki\\.nuget\\packages"
+      NUGET_FALLBACK_PACKAGES: "C:\\Users\\Jakub Wysocki\\.nuget\\packages"
+    image: "bankowosc.client:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\Jakub Wysocki\\.nuget\\packages:/root/.nuget/fallbackpackages"
+    - "C:\\Users\\Jakub Wysocki\\Desktop\\projekt ogrona danych\\OchronaDanych\\Bankowosc\\\
+      Client:/app:rw"
+    - "C:\\Users\\Jakub Wysocki\\Desktop\\projekt ogrona danych\\OchronaDanych\\Bankowosc:/src:rw"
+    working_dir: "/app"
+  bank-server:
+    build:
+      context: "C:\\Users\\Jakub Wysocki\\Desktop\\projekt ogrona danych\\OchronaDanych\\\
+        Bankowosc\\Server"
+      dockerfile: "Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net7.0/Bankowosc.Server.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+      NUGET_PACKAGES: "C:\\Users\\Jakub Wysocki\\.nuget\\packages"
+      NUGET_FALLBACK_PACKAGES: "C:\\Users\\Jakub Wysocki\\.nuget\\packages"
+    image: "bankowosc.server:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\Jakub Wysocki\\.nuget\\packages:/root/.nuget/fallbackpackages"
+    - "C:\\Users\\Jakub Wysocki\\Desktop\\projekt ogrona danych\\OchronaDanych\\Bankowosc\\\
+      Server:/app:rw"
+    - "C:\\Users\\Jakub Wysocki\\Desktop\\projekt ogrona danych\\OchronaDanych\\Bankowosc:/src:rw"
+    working_dir: "/app"
