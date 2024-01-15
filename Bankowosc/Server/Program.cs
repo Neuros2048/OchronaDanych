@@ -34,6 +34,27 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
+using (var serviceScope = builder.Services.BuildServiceProvider().CreateScope())
+{
+    var dbContext = serviceScope.ServiceProvider.GetRequiredService<DataContext>();
+    var pendingMigrations = await dbContext.Database.GetPendingMigrationsAsync();
+    if (pendingMigrations.Any())
+    {
+        Console.WriteLine($"Applying {pendingMigrations.Count()} pending migrations.");
+        await dbContext.Database.MigrateAsync();
+    }
+    else
+    {
+        Console.WriteLine("No pending migrations.");
+    }
+}
+
+app.UseCors(options => {
+    options.AllowAnyMethod();
+    options.AllowAnyHeader();
+
+    options.AllowAnyOrigin();
+});
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

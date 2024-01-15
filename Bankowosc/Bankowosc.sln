@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bankowosc.Client", "Client\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bankowosc.Shared", "Shared\Bankowosc.Shared.csproj", "{086E9EED-9C8B-479C-AF0A-AF4F393EB227}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend", "Frontend\Frontend.csproj", "{201824A2-D1F8-428A-9B21-6E8E9B182B87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Front", "Front\Front.csproj", "{41217E50-034C-4221-9198-30E4BF1A059D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{086E9EED-9C8B-479C-AF0A-AF4F393EB227}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{086E9EED-9C8B-479C-AF0A-AF4F393EB227}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{086E9EED-9C8B-479C-AF0A-AF4F393EB227}.Release|Any CPU.Build.0 = Release|Any CPU
+		{201824A2-D1F8-428A-9B21-6E8E9B182B87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{201824A2-D1F8-428A-9B21-6E8E9B182B87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{201824A2-D1F8-428A-9B21-6E8E9B182B87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{201824A2-D1F8-428A-9B21-6E8E9B182B87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41217E50-034C-4221-9198-30E4BF1A059D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41217E50-034C-4221-9198-30E4BF1A059D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41217E50-034C-4221-9198-30E4BF1A059D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41217E50-034C-4221-9198-30E4BF1A059D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
