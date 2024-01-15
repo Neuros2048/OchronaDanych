@@ -1,31 +1,31 @@
 # This is a generated file. Not intended for manual editing.
 version: "3.8"
 services:
-  bank_fronted:
+  bank-frontend:
     build:
       context: "C:\\Users\\Jakub Wysocki\\Desktop\\projekt ogrona danych\\OchronaDanych\\\
-        Bankowosc\\Frontend"
+        Bankowosc\\Frontend\\Server"
       dockerfile: "Dockerfile"
       target: "base"
     command: []
     entrypoint:
     - "dotnet"
-    - "/app/bin/Debug/net7.0/Frontend.dll"
+    - "/app/bin/Debug/net7.0/Frontend.Server.dll"
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
-      ASPNETCORE_STATICWEBASSETS: "/app/bin/Debug/net7.0/Frontend.staticwebassets.runtime.CT.json"
+      ASPNETCORE_STATICWEBASSETS: "/app/bin/Debug/net7.0/Frontend.Server.staticwebassets.runtime.CT.json"
       DOTNET_USE_POLLING_FILE_WATCHER: "true"
       NUGET_PACKAGES: "C:\\Users\\Jakub Wysocki\\.nuget\\packages"
       NUGET_FALLBACK_PACKAGES: "C:\\Users\\Jakub Wysocki\\.nuget\\packages"
-    image: "frontend:dev"
+    image: "frontend.server:dev"
     ports: []
     volumes:
     - "C:\\Users\\Jakub Wysocki\\.nuget\\packages:/root/.nuget/fallbackpackages"
     - "C:\\Users\\Jakub Wysocki\\Desktop\\projekt ogrona danych\\OchronaDanych\\Bankowosc\\\
-      Frontend:/app:rw"
+      Frontend\\Server:/app:rw"
     - "C:\\Users\\Jakub Wysocki\\Desktop\\projekt ogrona danych\\OchronaDanych\\Bankowosc:/src:rw"
     working_dir: "/app"
-  bank_server:
+  bank-server:
     build:
       context: "C:\\Users\\Jakub Wysocki\\Desktop\\projekt ogrona danych\\OchronaDanych\\\
         Bankowosc\\Server"

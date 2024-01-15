@@ -2,33 +2,33 @@ version: '3.8'
 
 
 services:
-  bank_nginx:
+  bank-nginx:
     build:
       context: Nginx
       dockerfile: Dockerfile
     ports:
       - "8070:80"
     depends_on:
-      - bank_fronted
-  bank_fronted:
-    container_name: bank_fronted
+      - bank-frontend
+  bank-frontend:
+    container_name: bank-frontend
     build:
-      context: Frontend
+      context: Frontend/Server
       dockerfile: Dockerfile
     ports:
       - "8081:80"
     depends_on:
-      - bank_server
-  bank_server:
-    container_name: bank_server
+      - bank-server
+  bank-server:
+    container_name: bank-server
     build:
       context: Server
       dockerfile: Dockerfile
     ports:
       - "8080:80"
     depends_on:
-      - bank_db
-  bank_db:
+      - bank-db
+  bank-db:
     container_name: bank_db
     image: "mcr.microsoft.com/mssql/server:2022-latest"
     ports:
