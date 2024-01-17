@@ -23,7 +23,7 @@
 
   <ItemGroup>
     <Folder Include="Entities\EntitiesConfiguration\" />
-    <Folder Include="Services\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>

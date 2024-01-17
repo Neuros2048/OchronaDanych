@@ -9,15 +9,28 @@ namespace Bankowosc.Server.Entities.EntitiesConfiguration
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.HasKey(x => x.Id);
-
+            builder.HasIndex(x => x.ClientNumber)
+                .IsUnique();
             builder.Property(p => p.Email)
             .IsRequired();
+            
+            builder.Property(p => p.PhoneNumber)
+                .IsRequired();
+            
+            builder.Property(p => p.ClientNumber)
+                .IsRequired();
 
             builder.Property(p => p.PasswordHash)
             .IsRequired();
 
             builder.Property(p => p.PasswordSalt)
             .IsRequired();
+            
+            builder.Property(p => p.PeselSalt)
+                .IsRequired();
+            
+            builder.Property(p => p.PasswordHash)
+                .IsRequired();
 
             builder.Property(p => p.Role)
                 .IsRequired();

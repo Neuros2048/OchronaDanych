@@ -11,7 +11,8 @@ namespace Bankowosc.Shared.Dto
     {
 
         public string Nadawca { get; set; }
-        public int KontoNadawcy { get; set; }
+        public string Tytul { get; set; }
+        public string KontoNadawcy { get; set; }
         public string Odbiorca { get; set; }
         [Required]
         [MinLength(26, ErrorMessage = "Za krótkie")]
@@ -20,7 +21,7 @@ namespace Bankowosc.Shared.Dto
         public string KontoOdbiorcy { get; set; }
         [Required]
         [RegularExpression(@"^[0-9]+.?[0-9]{0,2}$", ErrorMessage = "to nie jest poprawna kwota")]
-        public double Kwota { get; set; }
+        public decimal Kwota { get; set; }
         public DateTime DateTime { get; set; }
 
     }

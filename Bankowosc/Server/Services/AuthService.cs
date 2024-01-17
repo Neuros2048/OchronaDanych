@@ -131,7 +131,7 @@ namespace Bankowosc.Server.Services
             // save changes
             await _context.SaveChangesAsync();
 
-            return new ServiceResponse<int> { Success = true, Data = user.Id, Message = "Registration successful!" };
+            return new ServiceResponse<int> { Success = true, Data = (int)user.Id, Message = "Registration successful!" };
 
         }
 

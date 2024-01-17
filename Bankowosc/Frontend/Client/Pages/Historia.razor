@@ -1,6 +1,51 @@
 ﻿@page "/history"
+
+@inject IBanService _BanService
 <h3>Historia</h3>
+
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nadawca</th>
+            <th>KontoNadawcy</th>
+            <th>Odbioraca</th>
+            <th>KontoOdbiorcy</th>
+            <th>Tytył przelewu</th>
+            <th>Kwota</th>
+            <th>Data</th>
+
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach (var trans in _przelew)
+        {
+            <tr>
+                <td>@trans.Nadawca</td>
+                <td>@trans.KontoNadawcy</td>
+                <td>@trans.Odbiorca</td>
+                <td>@trans.KontoOdbiorcy</td>
+                <td>@trans.Tytul</td>
+                <td>@trans.Kwota</td>
+                <td>@trans.DateTime</td>
+                
+            </tr>
+        }
+
+    </tbody>
+    
+
+</table>
+
 
 @code {
 
+    private List<PrzelewDto> _przelew;
+    protected override async Task OnInitializedAsync()
+    {
+        _przelew = await _BanService.getTransactions();
+    }
 }

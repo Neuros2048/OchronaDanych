@@ -13,8 +13,8 @@ namespace Bankowosc.Server.Models
 
         public DbSet<User> Users { get; set; }
         public DbSet<CreditCard> Credits { get; set; }
-        public DbSet<Acount> Acounts { get; set; }
-        public DbSet<TransacionHistory> TransacionHistory { get; set; }
+        public DbSet<Account> Acounts { get; set; }
+        public DbSet<Transaction> TransacionHistory { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
