@@ -12,75 +12,33 @@ public class Seeder
             {
                 Id = 1,
                 Username = "user1",
-                PasswordHash = new byte[]
-                {
-                    /* Password hash bytes */
-                },
-                PasswordSalt = new byte[]
-                {
-                    /* Password salt bytes */
-                },
+                PasswordHash = "$2a$11$/mb61PYFJRcQwpgGyR089ujK0CZEBjQwKKX0unXoZbZVTYG/WW3Jm",
                 Email = "user1@example.com",
                 PhoneNumber = "1234567890",
-                ClientNumber = "C123",
-                PeselSalt = new byte[]
-                {
-                    /* Pesel salt bytes */
-                },
-                PeselHash = new byte[]
-                {
-                    /* Pesel hash bytes */
-                },
+                ClientNumber = "4732129813",
+                PeselHash = "a",
                 DateCreated = DateTime.Now
             },
             new User
             {
                 Id = 2,
                 Username = "user2",
-                PasswordHash = new byte[]
-                {
-                    /* Password hash bytes */
-                },
-                PasswordSalt = new byte[]
-                {
-                    /* Password salt bytes */
-                },
+                PasswordHash = "$2a$11$aXmxeKeEc.YAJ.xVyv2TReQAPiqIArKtUO7OFJ1QSxpP2Bn.IpPKq",
                 Email = "user2@example.com",
                 PhoneNumber = "9876543210",
-                ClientNumber = "C456",
-                PeselSalt = new byte[]
-                {
-                    /* Pesel salt bytes */
-                },
-                PeselHash = new byte[]
-                {
-                    /* Pesel hash bytes */
-                },
+                ClientNumber = "3718005120",
+                PeselHash = "a",
                 DateCreated = DateTime.Now
             },
             new User
             {
                 Id = 3,
                 Username = "user3",
-                PasswordHash = new byte[]
-                {
-                    /* Password hash bytes */
-                },
-                PasswordSalt = new byte[]
-                {
-                    /* Password salt bytes */
-                },
+                PasswordHash = "$2a$11$nasG4aM4pQbOM.Rq4i1FBejdUhYEfXwrifah0xwMgffhwmshn.Z/.",
                 Email = "user3@example.com",
                 PhoneNumber = "5555555555",
-                ClientNumber = "C789",
-                PeselSalt = new byte[]
-                {
-                    /* Pesel salt bytes */
-                },
-                PeselHash = new byte[]
-                {
-                    /* Pesel hash bytes */
-                },
+                ClientNumber = "9381230124",
+                PeselHash = "a",
                 DateCreated = DateTime.Now
             }
         };

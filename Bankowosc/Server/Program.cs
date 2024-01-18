@@ -10,9 +10,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllersWithViews();
+//builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<BankService>();
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -33,7 +35,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 var app = builder.Build();
-/*
+// /*
 using (var serviceScope = builder.Services.BuildServiceProvider().CreateScope())
 {
     var dbContext = serviceScope.ServiceProvider.GetRequiredService<DataContext>();
@@ -47,14 +49,16 @@ using (var serviceScope = builder.Services.BuildServiceProvider().CreateScope())
     {
         Console.WriteLine("No pending migrations.");
     }
-}*/
-
+} 
+// */
 app.UseCors(options => {
     options.AllowAnyMethod();
     options.AllowAnyHeader();
 
     options.AllowAnyOrigin();
 });
+app.UseAuthentication();
+app.UseAuthorization();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -72,7 +76,7 @@ else
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
-app.UseRouting();
+//app.UseRouting();
 
 
 app.MapRazorPages();

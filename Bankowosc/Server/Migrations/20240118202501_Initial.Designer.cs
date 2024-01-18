@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bankowosc.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240116160741_Initial")]
+    [Migration("20240118202501_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -25,7 +25,7 @@ namespace Bankowosc.Server.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Bankowosc.Server.Entities.Acount", b =>
+            modelBuilder.Entity("Bankowosc.Server.Entities.Account", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -39,7 +39,7 @@ namespace Bankowosc.Server.Migrations
                         .HasColumnType("nvarchar(26)");
 
                     b.Property<decimal>("Money")
-                        .HasColumnType("Money");
+                        .HasColumnType("decimal(19,4)");
 
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
@@ -53,6 +53,56 @@ namespace Bankowosc.Server.Migrations
                         .IsUnique();
 
                     b.ToTable("Acounts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            AccountNumber = "11111111111111111111111111",
+                            Money = 1000.50m,
+                            UserId = 1L
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            AccountNumber = "11111111111111111111111112",
+                            Money = 500.75m,
+                            UserId = 2L
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            AccountNumber = "11111111111111111111111113",
+                            Money = 2000.30m,
+                            UserId = 3L
+                        });
+                });
+
+            modelBuilder.Entity("Bankowosc.Server.Entities.BlockAccount", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("LastLogin")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("LoginAttempts")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserNumber")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserNumber")
+                        .IsUnique();
+
+                    b.ToTable("BlockAccounts");
                 });
 
             modelBuilder.Entity("Bankowosc.Server.Entities.CreditCard", b =>
@@ -123,6 +173,17 @@ namespace Bankowosc.Server.Migrations
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<decimal>("Money")
+                        .HasColumnType("decimal(19,4)");
+
+                    b.Property<string>("Receiver")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Sender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -146,7 +207,8 @@ namespace Bankowosc.Server.Migrations
 
                     b.Property<string>("ClientNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -155,21 +217,15 @@ namespace Bankowosc.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("PasswordHash")
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
 
-                    b.Property<byte[]>("PasswordSalt")
+                    b.Property<string>("PeselHash")
                         .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<byte[]>("PeselHash")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<byte[]>("PeselSalt")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
@@ -188,13 +244,51 @@ namespace Bankowosc.Server.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            ClientNumber = "4732129813",
+                            DateCreated = new DateTime(2024, 1, 18, 21, 25, 1, 755, DateTimeKind.Local).AddTicks(2220),
+                            Email = "user1@example.com",
+                            PasswordHash = "$2a$11$/mb61PYFJRcQwpgGyR089ujK0CZEBjQwKKX0unXoZbZVTYG/WW3Jm",
+                            PeselHash = "a",
+                            PhoneNumber = "1234567890",
+                            Role = 0,
+                            Username = "user1"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            ClientNumber = "3718005120",
+                            DateCreated = new DateTime(2024, 1, 18, 21, 25, 1, 755, DateTimeKind.Local).AddTicks(2228),
+                            Email = "user2@example.com",
+                            PasswordHash = "$2a$11$aXmxeKeEc.YAJ.xVyv2TReQAPiqIArKtUO7OFJ1QSxpP2Bn.IpPKq",
+                            PeselHash = "a",
+                            PhoneNumber = "9876543210",
+                            Role = 0,
+                            Username = "user2"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            ClientNumber = "9381230124",
+                            DateCreated = new DateTime(2024, 1, 18, 21, 25, 1, 755, DateTimeKind.Local).AddTicks(2234),
+                            Email = "user3@example.com",
+                            PasswordHash = "$2a$11$nasG4aM4pQbOM.Rq4i1FBejdUhYEfXwrifah0xwMgffhwmshn.Z/.",
+                            PeselHash = "a",
+                            PhoneNumber = "5555555555",
+                            Role = 0,
+                            Username = "user3"
+                        });
                 });
 
-            modelBuilder.Entity("Bankowosc.Server.Entities.Acount", b =>
+            modelBuilder.Entity("Bankowosc.Server.Entities.Account", b =>
                 {
                     b.HasOne("Bankowosc.Server.Entities.User", "User")
-                        .WithOne("Acount")
-                        .HasForeignKey("Bankowosc.Server.Entities.Acount", "UserId")
+                        .WithOne("Account")
+                        .HasForeignKey("Bankowosc.Server.Entities.Account", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -203,35 +297,35 @@ namespace Bankowosc.Server.Migrations
 
             modelBuilder.Entity("Bankowosc.Server.Entities.CreditCard", b =>
                 {
-                    b.HasOne("Bankowosc.Server.Entities.Acount", "Acount")
+                    b.HasOne("Bankowosc.Server.Entities.Account", "Account")
                         .WithOne("CreditCard")
                         .HasForeignKey("Bankowosc.Server.Entities.CreditCard", "AcountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Acount");
+                    b.Navigation("Account");
                 });
 
             modelBuilder.Entity("Bankowosc.Server.Entities.Transaction", b =>
                 {
-                    b.HasOne("Bankowosc.Server.Entities.Acount", "AcountReceiver")
+                    b.HasOne("Bankowosc.Server.Entities.Account", "AccountReceiver")
                         .WithMany("TransactionReceived")
                         .HasForeignKey("AcountReceiverId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Bankowosc.Server.Entities.Acount", "AcountSender")
+                    b.HasOne("Bankowosc.Server.Entities.Account", "AccountSender")
                         .WithMany("TransactionSend")
                         .HasForeignKey("AcountSenderId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("AcountReceiver");
+                    b.Navigation("AccountReceiver");
 
-                    b.Navigation("AcountSender");
+                    b.Navigation("AccountSender");
                 });
 
-            modelBuilder.Entity("Bankowosc.Server.Entities.Acount", b =>
+            modelBuilder.Entity("Bankowosc.Server.Entities.Account", b =>
                 {
                     b.Navigation("CreditCard")
                         .IsRequired();
@@ -243,7 +337,7 @@ namespace Bankowosc.Server.Migrations
 
             modelBuilder.Entity("Bankowosc.Server.Entities.User", b =>
                 {
-                    b.Navigation("Acount")
+                    b.Navigation("Account")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

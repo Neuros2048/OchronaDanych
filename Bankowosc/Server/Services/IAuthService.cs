@@ -12,5 +12,7 @@ namespace Bankowosc.Server.Services
         Task<bool> UserExists(string email);
 
         Task<ServiceResponse<bool>> ChangePassword(int userId, string newPassword);
+
+        Task<ServiceResponse<string>> Login2();
     }
 }

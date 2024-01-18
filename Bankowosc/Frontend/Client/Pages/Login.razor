@@ -9,16 +9,21 @@
 
 <div>
     <EditForm Model="userLoginDTO" OnValidSubmit="HandleLogin">
-
-        <p>Email:</p>
-        <InputText @bind-Value="userLoginDTO.Email" id="email"></InputText>
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <p>Login:</p>
+        <InputText @bind-Value="userLoginDTO.Login" id="email" class="form-control"></InputText>
         <p>Password:</p>
-        <InputText @bind-Value="userLoginDTO.Password" id="password" type="password"></InputText>
+        <InputText @bind-Value="userLoginDTO.Password" id="password" type="password" class="form-control"></InputText>
 
         <button type="submit">Login In</button>
 
     </EditForm>
-
+    
+    @if (logging)
+    {
+        <div class="loader"></div>
+    }
     @if (!string.IsNullOrEmpty(message))
     {
         <p>@message</p>
@@ -29,21 +34,25 @@
 
     private UserLoginDTO userLoginDTO = new UserLoginDTO();
     private string message = string.Empty;
+    private bool logging = false;
 
     private async Task HandleLogin()
     {
+        logging = true;
         var result = await AuthService.Login(userLoginDTO);
         if (result.Success)
         {
             await LocalStorageService.SetItemAsync("authToken", result.Data);
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
-    
+            logging = false;
             NavigationManager.NavigateTo("Konto");
         }
         else
         {
-            NavigationManager.NavigateTo("/");
+            logging = false;
+            message = result.Message;
         }
     }
+
 
 }

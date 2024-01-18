@@ -31,4 +31,14 @@ public class TransactionMapper
             DateTime = przelewDto.DateTime
         };
     }
+
+    public static Transaction mapPrzelewDto(MakeTransactionDto transactionDto)
+    {
+        return new Transaction
+        {
+            Title = transactionDto.Tytul,
+            AccountNumberReceiver = transactionDto.KontoOdbiorcy,
+            Money = transactionDto.Kwota
+        };
+    }
 }

@@ -15,6 +15,7 @@ namespace Bankowosc.Server.Services
 
         private readonly DataContext _context;
         private readonly IConfiguration _config;
+        private readonly int ReHash = 100;
         public AuthService(DataContext context, IConfiguration config)
         {
             _context = context;
@@ -23,62 +24,81 @@ namespace Bankowosc.Server.Services
 
         public async Task<ServiceResponse<bool>> ChangePassword(int userId, string newPassword)
         {
-            var user = await _context.Users.FindAsync(userId);
-            if (user == null)
+            return null;
+        }
+
+        public async Task<ServiceResponse<string>> Login2()
+        {
+            var Salt = BCrypt.Net.BCrypt.GenerateSalt();
+            string haslo = "Zupelneogronad@n^*(2";
+            for (int i = 0; i < 100 ; i++)
             {
-                return new ServiceResponse<bool>
+                haslo = BCrypt.Net.BCrypt.HashPassword(haslo, Salt);
+            }
+
+           
+            return new ServiceResponse<string>
+            {
+                Success = true,
+                Data = haslo,
+                Message = Salt
+                
+            };
+            BCrypt.Net.BCrypt.HashPassword("haloludzie");
+        }
+        
+        public async Task<ServiceResponse<string>> Login(string login, string password)
+        {
+            string message = "Nie poprawne dane logowanie";
+            if (await IsBlocked(login))
+            {
+                return new ServiceResponse<string>()
                 {
                     Success = false,
-                    Message = "User not found."
+                    Message = "konto jest zablokowane"
+                };
+            }
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.ClientNumber.Equals(login));
+            if (user == null)
+            {
+                VerifyPasswordHash("a", BCrypt.Net.BCrypt.GenerateSalt() + "a");
+                return new ServiceResponse<string>()
+                {
+                    Success = false,
+                    Message = message
+                };
+            }
+            
+            bool ans = VerifyPasswordHash(password, user.PasswordHash);
+            if (!ans)
+            {
+                return new ServiceResponse<string>()
+                {
+                    Success = false,
+                    Message = message
                 };
             }
 
-            CreatePasswordHash(newPassword, out byte[] passwordHash, out byte[] passwordSalt);
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
-
-            await _context.SaveChangesAsync();
-            return new ServiceResponse<bool>
+            await CorrectLogin(login);
+            return new ServiceResponse<string>()
             {
-                Data = true,
-                Message = "Password updated successfully.",
+                Data = CreateToken(user),
                 Success = true
             };
+
         }
 
-        public async Task<ServiceResponse<string>> Login(string email, string password)
+        private bool VerifyPasswordHash(string password, string passwordHash)
         {
-            var response = new ServiceResponse<string>();
-
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email.ToLower() == email.ToLower());
-            if (user == null)
+            string Salt = passwordHash.Substring(0, 29);
+            
+            for (int i = 0; i < ReHash; i++)
             {
-                response.Success = false;
-                response.Message = "User not found.";
-            }
-            else if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
-            {
-                response.Success = false;
-                response.Message = "Incorrect password.";
-            }
-            else
-            {
-                response.Data = CreateToken(user);
-                response.Success = true;
-                response.Message = "Login successful.";
+                password = BCrypt.Net.BCrypt.HashPassword(password, Salt);
             }
 
+            return passwordHash.Equals(password);
 
-            return response;
-        }
-
-        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
-        {
-            using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
-            {
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                return computedHash.SequenceEqual(passwordHash);
-            }
         }
 
         private string CreateToken(User user)
@@ -87,8 +107,7 @@ namespace Bankowosc.Server.Services
              {
                  new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                  new Claim(ClaimTypes.Name, user.Username),
-                 new Claim(ClaimTypes.Role, user.Role.ToString()),
-                 new Claim("DateCreated", user.DateCreated.ToString()),
+                 new Claim(ClaimTypes.Role, user.Role.ToString())
              };
 
 
@@ -109,29 +128,9 @@ namespace Bankowosc.Server.Services
 
         public async Task<ServiceResponse<int>> Register(User user, string password)
         {
-            user.Role = Role.USER;
-            if (await UserExists(user.Email))
-            {
-                return new ServiceResponse<int>
-                {
-                    Success = false,
-                    Message = "User already exists."
-                };
-            }
+            
 
-            // create password hash and salt
-            CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
-
-            // assign hash and salt to user
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
-
-            // add user to db
-            await _context.Users.AddAsync(user);
-            // save changes
-            await _context.SaveChangesAsync();
-
-            return new ServiceResponse<int> { Success = true, Data = (int)user.Id, Message = "Registration successful!" };
+            return new ServiceResponse<int> { Success = true, Data = 2, Message = "Registration successful!" };
 
         }
 
@@ -155,5 +154,45 @@ namespace Bankowosc.Server.Services
             }
             return false;
         }
+
+        private async Task<bool> IsBlocked(string UserNumber)
+        {
+            var result = await _context.BlockAccounts.FirstOrDefaultAsync(x => x.UserNumber.Equals(UserNumber));
+            if (result == null)
+            {
+                BlockAccount block = new BlockAccount()
+                {
+                    LoginAttempts = 1,
+                    UserNumber = UserNumber,
+                    LastLogin = DateTime.Now
+                };
+                await _context.BlockAccounts.AddAsync(block);
+                await _context.SaveChangesAsync();
+                return false;
+            }
+
+            if (result.LastLogin.AddMinutes(15) < DateTime.Now)
+            {
+                result.LoginAttempts = 0;
+            }
+
+            result.LoginAttempts++;
+            result.LastLogin = DateTime.Now;
+            await _context.SaveChangesAsync();
+            if (result.LoginAttempts > 3)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private async Task CorrectLogin(string UserNumber)
+        {
+            var result = await _context.BlockAccounts.FirstOrDefaultAsync(x => x.UserNumber.Equals(UserNumber));
+            result.LoginAttempts = 0;
+            await _context.SaveChangesAsync();
+        }
+        
     }
 }

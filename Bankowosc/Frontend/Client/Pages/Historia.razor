@@ -2,7 +2,7 @@
 
 @inject IBanService _BanService
 <h3>Historia</h3>
-
+@attribute [Authorize]
 
 
 
@@ -43,7 +43,7 @@
 
 @code {
 
-    private List<PrzelewDto> _przelew;
+    private List<PrzelewDto> _przelew = new List<PrzelewDto>();
     protected override async Task OnInitializedAsync()
     {
         _przelew = await _BanService.getTransactions();

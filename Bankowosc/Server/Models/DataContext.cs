@@ -15,6 +15,7 @@ namespace Bankowosc.Server.Models
         public DbSet<CreditCard> Credits { get; set; }
         public DbSet<Account> Acounts { get; set; }
         public DbSet<Transaction> TransacionHistory { get; set; }
+        public DbSet<BlockAccount> BlockAccounts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,12 +23,14 @@ namespace Bankowosc.Server.Models
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CreditCardConfiguration).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AccountConfiguration).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(TransationHistoryConfiguration).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(BlockAccount).Assembly);
             Seed(modelBuilder);
         }
 
         private static void Seed(ModelBuilder modelBuilder)
         {
-
+            modelBuilder.Entity<User>().HasData(Seeder.GenerateUsers());
+            modelBuilder.Entity<Account>().HasData(Seeder.GenerateAccounts());
         }
     }
 }

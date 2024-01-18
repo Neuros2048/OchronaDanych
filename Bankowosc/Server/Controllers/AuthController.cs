@@ -25,11 +25,21 @@ namespace Bankowosc.Server.Controllers
         {
             return "secret";
         }
+        [HttpGet("Test")]
+        public async Task<ActionResult<ServiceResponse<string>>> Test()
+        {
+            var response = await _authService.Login2();
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
 
+            return Ok(response);
+        }
         [HttpPost("login")]
         public async Task<ActionResult<ServiceResponse<string>>> Login(UserLoginDTO userLoginDTO)
         {
-            var response = await _authService.Login(userLoginDTO.Email, userLoginDTO.Password);
+            var response = await _authService.Login(userLoginDTO.Login, userLoginDTO.Password);
             if (!response.Success)
             {
                 return BadRequest(response);
@@ -41,7 +51,7 @@ namespace Bankowosc.Server.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegisterDTO userRegisterDTO)
         {
-
+            
             if (userRegisterDTO.ConfirmPassword != userRegisterDTO.Password)
             {
                 return BadRequest(new ServiceResponse<int>
@@ -68,6 +78,7 @@ namespace Bankowosc.Server.Controllers
         [HttpPost("change-password"), Authorize]
         public async Task<ActionResult<ServiceResponse<bool>>> ChangePassword([FromBody] string newPassword)
         {
+           
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var response = await _authService.ChangePassword(int.Parse(userId), newPassword);
             if (!response.Success)

@@ -6,11 +6,18 @@
 @inherits LayoutComponentBase
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager NavigationManager
-
+@inject IBanService _BanService
 @attribute [Authorize]
 
-<h3>Konto jestes zalogowany</h3>
-
+<h3>Twoje konto</h3>
+<h3>Numer rachunku bankowego</h3>
+<p>@_daneKontaDto.AccountNumber</p>
+<h3>Stan skonta</h3>
+<p>@_daneKontaDto.Money zł</p>
 @code {
-
+    private DaneKontaDto _daneKontaDto = new DaneKontaDto();
+    protected override async Task OnInitializedAsync()
+    {
+        _daneKontaDto = await _BanService.getAccountData();
+    }
 }

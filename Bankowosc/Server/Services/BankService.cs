@@ -1,4 +1,5 @@
-﻿using System.Transactions;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Transactions;
 using Bankowosc.Server.Maper;
 using Bankowosc.Server.Models;
 using Bankowosc.Shared.Dto;
@@ -16,10 +17,11 @@ public class BankService
         _context = context;
     }
 
-    public async Task<ServiceResponse<bool>> MakeTransaction(PrzelewDto transaction, long userId)
+    public async Task<ServiceResponse<bool>> MakeTransaction(MakeTransactionDto transaction, long userId)
     {
-        var accout = await _context.Acounts.FirstOrDefaultAsync(x => x.AccountNumber == transaction.KontoNadawcy);
-        if (accout == null)
+        var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
+        
+        if (user == null)
         {
             return new ServiceResponse<bool>()
             {
@@ -27,15 +29,7 @@ public class BankService
                 Message = "Konto nadawcy nie istnieje",
             };
         }
-
-        if (accout.UserId != userId)
-        {
-            return new ServiceResponse<bool>()
-            {
-                Success = false,
-                Message = "To nie jest twoje konto",
-            };
-        }
+        var accout = await _context.Acounts.FirstOrDefaultAsync(x => x.UserId == userId);
 
         if (accout.Money < transaction.Kwota)
         {
@@ -59,8 +53,13 @@ public class BankService
         accout.Money -= transaction.Kwota;
         recAccout.Money += transaction.Kwota;
         Transaction newTransaction = TransactionMapper.mapPrzelewDto(transaction);
+        newTransaction.AccountNumberSender = accout.AccountNumber;
         newTransaction.AcountSenderId = accout.Id;
         newTransaction.AcountReceiverId = recAccout.Id;
+        newTransaction.Sender = user.Username;
+        var revecerName = await _context.Users.FirstOrDefaultAsync(x => x.Id == recAccout.UserId);
+        newTransaction.Receiver = revecerName.Username;
+        newTransaction.DateTime = DateTime.Now;
         await _context.TransacionHistory.AddAsync(newTransaction);
         await _context.SaveChangesAsync();
         return new ServiceResponse<bool>()
@@ -85,10 +84,35 @@ public class BankService
         var ans = _context.TransacionHistory.Where(x =>
                 x.AcountReceiverId == account.Id || x.AcountSenderId == account.Id)
             .Select(x => TransactionMapper.mapTransaction(x)).ToList();
+        ans.Reverse();
         return new ServiceResponse<List<PrzelewDto>>()
         {
             Success = true,
             Data = ans,
         };
     }
+
+    public async Task<ServiceResponse<DaneKontaDto>> UserAccountInfo(long userId)
+    {
+        var result = await _context.Acounts.FirstOrDefaultAsync(x => x.UserId == userId);
+        if (result == null)
+        {
+            return new ServiceResponse<DaneKontaDto>()
+            {
+                Success = false,
+                Message = "Użytkownik nie ma konta"
+            };
+        }
+
+        return new ServiceResponse<DaneKontaDto>()
+        {
+            Data = new DaneKontaDto()
+            {
+                Money = result.Money,
+                AccountNumber = result.AccountNumber
+            },
+            Success = true
+        };
+    }
+    
 }

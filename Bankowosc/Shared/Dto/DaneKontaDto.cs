@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Bankowosc.Shared.Dto
 {
-    internal class DaneKontaDto
+    public class DaneKontaDto
     {
+        public decimal Money { get; set; }
+        public string AccountNumber { get; set; }
     }
 }

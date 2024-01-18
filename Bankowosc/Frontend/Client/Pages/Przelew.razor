@@ -1,6 +1,8 @@
 ﻿@page "/przelew"
+@attribute [Authorize]
 @inject NavigationManager NavigationManager
-
+@inject IBanService _BanService
+@attribute [Authorize]
 <h3>Przelew</h3>
 
 <style>
@@ -17,17 +19,20 @@
     }
 </style>
 
-<EditForm Model="przelewDto" OnValidSubmit="HandlePrzelew">
+<EditForm Model="transactionDto" OnValidSubmit="HandlePrzelew">
     <DataAnnotationsValidator />
     <ValidationSummary />
-
+     <div class="form-group">
+                <p>Tytuł:</p>
+        <InputText  @bind-Value="@transactionDto.Tytul" class="form-control"></InputText>
+            </div>
         <div class="form-group">
-            <p>Email:</p>
-    <InputText  @bind-Value="@przelewDto.KontoOdbiorcy" class="form-control"></InputText>
+            <p>Numer rahunku odbiorcy:</p>
+    <InputText  @bind-Value="@transactionDto.KontoOdbiorcy" class="form-control"></InputText>
         </div>
         <div class="form-group">
-            <p>Password:</p>
-    <InputNumber @bind-Value="przelewDto.Kwota"   class="form-control" HtmlAttributes="@htmlattribute" id="kwota"></InputNumber>
+            <p>Kwota:</p>
+    <InputNumber @bind-Value="transactionDto.Kwota"   class="form-control" HtmlAttributes="@htmlattribute" id="kwota"></InputNumber>
         </div>
     
    
@@ -35,17 +40,24 @@
        
 </EditForm>
 
+<h3>@message</h3>
 
 
-
-<h3> @przelewDto.Kwota</h3>
+<h3> @transactionDto.Kwota</h3>
 @code {
-    private PrzelewDto przelewDto = new PrzelewDto();
+    private MakeTransactionDto transactionDto = new MakeTransactionDto();
 
-
+    private string message = "";
     private async Task HandlePrzelew()
     {
-        
+        bool res = await _BanService.MakeTransaction(transactionDto);
+        if (res)
+        {
+            NavigationManager.NavigateTo("/history");
+            
+        }
+        message = "nie udało się dokonać tranzakci";
+
     }
 
     Dictionary<string, object> htmlattribute = new Dictionary<string, object>()

@@ -18,18 +18,15 @@ namespace Bankowosc.Server.Entities.EntitiesConfiguration
                 .IsRequired();
             
             builder.Property(p => p.ClientNumber)
+                .HasMaxLength(10)
                 .IsRequired();
 
             builder.Property(p => p.PasswordHash)
-            .IsRequired();
-
-            builder.Property(p => p.PasswordSalt)
+                .HasMaxLength(60)
             .IsRequired();
             
-            builder.Property(p => p.PeselSalt)
-                .IsRequired();
-            
-            builder.Property(p => p.PasswordHash)
+            builder.Property(p => p.PeselHash)
+                .HasMaxLength(60)
                 .IsRequired();
 
             builder.Property(p => p.Role)
