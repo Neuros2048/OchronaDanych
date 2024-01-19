@@ -71,6 +71,41 @@ public class Seeder
             }
         };
     }
+
+    public static List<CreditCard> GenerateCreditCards()
+    {
+        return new List<CreditCard>()
+        {
+            new CreditCard
+            {
+                Id = 1,
+                Numbers = "5541767398786680",
+                SpecialNumber = "522",
+                Name = "Jakub Wysocki",
+                EndDate = "11/2030",
+                Pin = "3341",
+                AcountId = 1,
+            },new CreditCard
+            {
+                Id = 2,
+                Numbers = "5541762873150411",
+                SpecialNumber = "972",
+                Name = "Piotr Wysocki",
+                EndDate = "03/2024",
+                Pin = "5136",
+                AcountId = 2,
+            },new CreditCard
+            {
+                Id = 3,
+                Numbers = "5541763721941795",
+                SpecialNumber = "827",
+                Name = "Szymon Szmigiel",
+                EndDate = "11/2026",
+                Pin = "3881",
+                AcountId = 3,
+            },
+        };
+    }
     
     
 }

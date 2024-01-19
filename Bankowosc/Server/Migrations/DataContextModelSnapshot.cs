@@ -127,6 +127,10 @@ namespace Bankowosc.Server.Migrations
                         .HasMaxLength(12)
                         .HasColumnType("nvarchar(12)");
 
+                    b.Property<string>("Pin")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SpecialNumber")
                         .IsRequired()
                         .HasMaxLength(3)
@@ -140,7 +144,7 @@ namespace Bankowosc.Server.Migrations
                     b.HasIndex("Numbers")
                         .IsUnique();
 
-                    b.ToTable("Credits");
+                    b.ToTable("CreditCredits");
                 });
 
             modelBuilder.Entity("Bankowosc.Server.Entities.Transaction", b =>
@@ -247,7 +251,7 @@ namespace Bankowosc.Server.Migrations
                         {
                             Id = 1L,
                             ClientNumber = "4732129813",
-                            DateCreated = new DateTime(2024, 1, 18, 21, 25, 1, 755, DateTimeKind.Local).AddTicks(2220),
+                            DateCreated = new DateTime(2024, 1, 19, 22, 32, 53, 519, DateTimeKind.Local).AddTicks(7351),
                             Email = "user1@example.com",
                             PasswordHash = "$2a$11$/mb61PYFJRcQwpgGyR089ujK0CZEBjQwKKX0unXoZbZVTYG/WW3Jm",
                             PeselHash = "a",
@@ -259,7 +263,7 @@ namespace Bankowosc.Server.Migrations
                         {
                             Id = 2L,
                             ClientNumber = "3718005120",
-                            DateCreated = new DateTime(2024, 1, 18, 21, 25, 1, 755, DateTimeKind.Local).AddTicks(2228),
+                            DateCreated = new DateTime(2024, 1, 19, 22, 32, 53, 519, DateTimeKind.Local).AddTicks(7358),
                             Email = "user2@example.com",
                             PasswordHash = "$2a$11$aXmxeKeEc.YAJ.xVyv2TReQAPiqIArKtUO7OFJ1QSxpP2Bn.IpPKq",
                             PeselHash = "a",
@@ -271,7 +275,7 @@ namespace Bankowosc.Server.Migrations
                         {
                             Id = 3L,
                             ClientNumber = "9381230124",
-                            DateCreated = new DateTime(2024, 1, 18, 21, 25, 1, 755, DateTimeKind.Local).AddTicks(2234),
+                            DateCreated = new DateTime(2024, 1, 19, 22, 32, 53, 519, DateTimeKind.Local).AddTicks(7392),
                             Email = "user3@example.com",
                             PasswordHash = "$2a$11$nasG4aM4pQbOM.Rq4i1FBejdUhYEfXwrifah0xwMgffhwmshn.Z/.",
                             PeselHash = "a",

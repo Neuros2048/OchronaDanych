@@ -70,7 +70,7 @@ namespace Bankowosc.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Credits",
+                name: "CreditCredits",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -79,13 +79,14 @@ namespace Bankowosc.Server.Migrations
                     SpecialNumber = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EndDate = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: false),
+                    Pin = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AcountId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Credits", x => x.Id);
+                    table.PrimaryKey("PK_CreditCredits", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Credits_Acounts_AcountId",
+                        name: "FK_CreditCredits_Acounts_AcountId",
                         column: x => x.AcountId,
                         principalTable: "Acounts",
                         principalColumn: "Id",
@@ -128,9 +129,9 @@ namespace Bankowosc.Server.Migrations
                 columns: new[] { "Id", "ClientNumber", "DateCreated", "Email", "PasswordHash", "PeselHash", "PhoneNumber", "Role", "Username" },
                 values: new object[,]
                 {
-                    { 1L, "4732129813", new DateTime(2024, 1, 18, 21, 25, 1, 755, DateTimeKind.Local).AddTicks(2220), "user1@example.com", "$2a$11$/mb61PYFJRcQwpgGyR089ujK0CZEBjQwKKX0unXoZbZVTYG/WW3Jm", "a", "1234567890", 0, "user1" },
-                    { 2L, "3718005120", new DateTime(2024, 1, 18, 21, 25, 1, 755, DateTimeKind.Local).AddTicks(2228), "user2@example.com", "$2a$11$aXmxeKeEc.YAJ.xVyv2TReQAPiqIArKtUO7OFJ1QSxpP2Bn.IpPKq", "a", "9876543210", 0, "user2" },
-                    { 3L, "9381230124", new DateTime(2024, 1, 18, 21, 25, 1, 755, DateTimeKind.Local).AddTicks(2234), "user3@example.com", "$2a$11$nasG4aM4pQbOM.Rq4i1FBejdUhYEfXwrifah0xwMgffhwmshn.Z/.", "a", "5555555555", 0, "user3" }
+                    { 1L, "4732129813", new DateTime(2024, 1, 19, 22, 32, 53, 519, DateTimeKind.Local).AddTicks(7351), "user1@example.com", "$2a$11$/mb61PYFJRcQwpgGyR089ujK0CZEBjQwKKX0unXoZbZVTYG/WW3Jm", "a", "1234567890", 0, "user1" },
+                    { 2L, "3718005120", new DateTime(2024, 1, 19, 22, 32, 53, 519, DateTimeKind.Local).AddTicks(7358), "user2@example.com", "$2a$11$aXmxeKeEc.YAJ.xVyv2TReQAPiqIArKtUO7OFJ1QSxpP2Bn.IpPKq", "a", "9876543210", 0, "user2" },
+                    { 3L, "9381230124", new DateTime(2024, 1, 19, 22, 32, 53, 519, DateTimeKind.Local).AddTicks(7392), "user3@example.com", "$2a$11$nasG4aM4pQbOM.Rq4i1FBejdUhYEfXwrifah0xwMgffhwmshn.Z/.", "a", "5555555555", 0, "user3" }
                 });
 
             migrationBuilder.InsertData(
@@ -162,14 +163,14 @@ namespace Bankowosc.Server.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Credits_AcountId",
-                table: "Credits",
+                name: "IX_CreditCredits_AcountId",
+                table: "CreditCredits",
                 column: "AcountId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Credits_Numbers",
-                table: "Credits",
+                name: "IX_CreditCredits_Numbers",
+                table: "CreditCredits",
                 column: "Numbers",
                 unique: true);
 
@@ -197,7 +198,7 @@ namespace Bankowosc.Server.Migrations
                 name: "BlockAccounts");
 
             migrationBuilder.DropTable(
-                name: "Credits");
+                name: "CreditCredits");
 
             migrationBuilder.DropTable(
                 name: "TransacionHistory");

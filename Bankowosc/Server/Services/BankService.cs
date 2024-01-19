@@ -115,4 +115,52 @@ public class BankService
         };
     }
     
+    public async Task<ServiceResponse<KartaKredytowaDto>> CreditCardInfo(long userId)
+    {
+        var result = await _context.Acounts.FirstOrDefaultAsync(x => x.UserId == userId);
+        if (result == null)
+        {
+            return new ServiceResponse<KartaKredytowaDto>()
+            {
+                Success = false,
+                Message = "Użytkownik nie ma konta"
+            };
+        }
+
+        var card = await _context.CreditCredits.FirstOrDefaultAsync(x => x.AcountId == result.Id);
+        if (card == null)
+        {
+            return new ServiceResponse<KartaKredytowaDto>()
+            {
+                Success = false,
+                Message = "Użytkownik nie ma karty"
+            };
+        }
+
+        return new ServiceResponse<KartaKredytowaDto>()
+        {
+            Success = true,
+            Data = CreditCardMapper.CredicCardToDto(card)
+        };
+    }
+    
+    public async Task<ServiceResponse<UserDto>> UserInfo(long userId)
+    {
+        var result = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
+        if (result == null)
+        {
+            return new ServiceResponse<UserDto>()
+            {
+                Success = false,
+                Message = "Wystąpił błąd"
+            };
+        }
+
+        return new ServiceResponse<UserDto>()
+        {
+            Data = UserMapper.UsertoDot(result),
+            Success = true
+        };
+    }
+    
 }

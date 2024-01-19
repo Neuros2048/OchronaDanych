@@ -1,4 +1,5 @@
-﻿@inject ILocalStorageService LocalStorageService
+﻿@using System.Security.Claims
+@inject ILocalStorageService LocalStorageService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager NavigationManager
 <div class="top-row ps-3 navbar navbar-dark">
@@ -14,26 +15,42 @@
     <nav class="flex-column">
         <AuthorizeView>
             <Authorized>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="konto">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> Twoje konto
-                    </NavLink>
-                </div>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="przelew">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> Dokonaj przelew
-                    </NavLink>
-                </div>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="history">
-                        <span class="oi oi-list-rich" aria-hidden="true"></span> Historia
-                    </NavLink>
-                </div>
+                @if (context.User.Claims.Where(c => c.Type == ClaimTypes.Role).FirstOrDefault().Value == "ADMIN")
+                 {
+                      <div class="nav-item px-3">
+                         <NavLink class="nav-link" href="register">
+                             <span class="oi oi-list-rich" aria-hidden="true"></span> Zarejestruj uzytkownika
+                         </NavLink>
+                     </div>
+                 } else if (context.User.Claims.Where(c => c.Type == ClaimTypes.Role).FirstOrDefault().Value == "USER") {
+                         
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href="konto">
+                            <span class="oi oi-list-rich" aria-hidden="true"></span> Twoje konto
+                        </NavLink>
+                    </div>
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href="przelew">
+                            <span class="oi oi-list-rich" aria-hidden="true"></span> Dokonaj przelew
+                        </NavLink>
+                    </div>
+                     <div class="nav-item px-3">
+                         <NavLink class="nav-link" href="history">
+                             <span class="oi oi-list-rich" aria-hidden="true"></span> Historia
+                         </NavLink>
+                     </div>
+                     <div class="nav-item px-3">
+                         <NavLink class="nav-link" href="changepassword">
+                             <span class="oi oi-list-rich" aria-hidden="true"></span> Zmień password
+                         </NavLink>
+                     </div>
+                 }
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="#" @onclick="Logout">
                         <span class="oi oi-list-rich" aria-hidden="true"></span> Wyloguj
                     </NavLink>
                 </div>
+
             </Authorized>
             <NotAuthorized>
                 <div class="nav-item px-3">

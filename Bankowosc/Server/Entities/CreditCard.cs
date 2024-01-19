@@ -7,6 +7,7 @@
         public string SpecialNumber { get; set; }
         public string Name { get; set; }
         public string EndDate { get; set; }
+        public string Pin { get; set; }
         
         public long AcountId { get; set; }
         public Account Account { get; set; }

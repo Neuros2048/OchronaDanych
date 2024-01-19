@@ -12,7 +12,7 @@ namespace Bankowosc.Server.Models
         }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<CreditCard> Credits { get; set; }
+        public DbSet<CreditCard> CreditCredits { get; set; }
         public DbSet<Account> Acounts { get; set; }
         public DbSet<Transaction> TransacionHistory { get; set; }
         public DbSet<BlockAccount> BlockAccounts { get; set; }
@@ -31,6 +31,7 @@ namespace Bankowosc.Server.Models
         {
             modelBuilder.Entity<User>().HasData(Seeder.GenerateUsers());
             modelBuilder.Entity<Account>().HasData(Seeder.GenerateAccounts());
+            modelBuilder.Entity<CreditCard>().HasData(Seeder.GenerateCreditCards());
         }
     }
 }

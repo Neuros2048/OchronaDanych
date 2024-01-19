@@ -14,10 +14,125 @@
 <p>@_daneKontaDto.AccountNumber</p>
 <h3>Stan skonta</h3>
 <p>@_daneKontaDto.Money zł</p>
+<br/>
+@if (userView)
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Imnie i Nazwisko</th>
+            <th>Email</th>
+            <th>Numer telefonu</th>
+         
+
+        </tr>
+
+        </thead>
+        <tbody>
+        
+            <tr>
+                <td>@_userDto.Name</td>
+                <td>@_userDto.Email</td>
+                <td>@_userDto.Phone</td>
+             
+            </tr>
+        
+
+        </tbody>
+    
+
+    </table>
+}
+<button class="btn btn-primary w-100 my-4 mb-2" @onclick=UserViewChange>
+    @if (!userView)
+    {
+        <span>Pokaż dane użytkownika</span>
+    }
+    else
+    {
+        <span>Ukryj dane uzytkownika</span>
+    }
+</button>
+<br/>
+@if (CardView)
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Właściciel</th>
+            <th>Numer Karty</th>
+            <th>CVC</th>
+            <th>Wygaśnięcie</th>
+         
+
+        </tr>
+
+        </thead>
+        <tbody>
+        
+            <tr>
+                <td>@_kartaKredytowaDto.Name</td>
+                <td>@_kartaKredytowaDto.Numbers</td>
+                <td>@_kartaKredytowaDto.SpecialNumber</td>
+                <td>@_kartaKredytowaDto.EndDate</td>
+             
+            </tr>
+        
+
+        </tbody>
+    
+
+    </table>
+}
+<button class="btn btn-primary w-100 my-4 mb-2" @onclick=CardViewChange>
+    @if (!CardView)
+    {
+        <span>Pokaż dane karty</span>
+    }
+    else
+    {
+        <span>Ukryj dane karty</span>
+    }
+</button>
+
 @code {
     private DaneKontaDto _daneKontaDto = new DaneKontaDto();
+    private bool CardView = false;
+    private KartaKredytowaDto _kartaKredytowaDto = new KartaKredytowaDto();
+    private bool userView = false;
+    private UserDto _userDto = new UserDto();
     protected override async Task OnInitializedAsync()
     {
         _daneKontaDto = await _BanService.getAccountData();
+        
+    }
+
+    private async Task CardViewChange()
+    {
+        
+        CardView = !CardView;
+        if (CardView)
+        {
+            _kartaKredytowaDto = await _BanService.getCreditCardData();
+        }
+        else
+        {
+            _kartaKredytowaDto = new KartaKredytowaDto();
+        }
+        
+    }
+    private async Task UserViewChange()
+    {
+
+        userView = !userView;
+        if (userView)
+        {
+            _userDto = await _BanService.UserData();
+        }
+        else
+        {
+            _userDto = new UserDto();
+        }
+        
     }
 }

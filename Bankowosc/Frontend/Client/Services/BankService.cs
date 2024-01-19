@@ -44,4 +44,27 @@ public class BankService : IBanService
 
         return new DaneKontaDto();
     }
+    
+    public async Task<KartaKredytowaDto> getCreditCardData()
+    {
+        var result = await _http.GetFromJsonAsync<ServiceResponse<KartaKredytowaDto>>("api/Bank/CreditCardInfo");
+        return new KartaKredytowaDto();
+        if (result.Success)
+        {
+            return result.Data;
+        }
+
+        return new KartaKredytowaDto();
+    }
+    
+    public async Task<UserDto> UserData()
+    {
+        var result = await _http.GetFromJsonAsync<ServiceResponse<UserDto>>("api/Bank/UserInfo");
+        if (result.Success)
+        {
+            return result.Data;
+        }
+
+        return new UserDto();
+    }
 }

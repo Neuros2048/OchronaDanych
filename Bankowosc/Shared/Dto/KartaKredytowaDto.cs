@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace Bankowosc.Shared.Dto
 {
-    internal class KartaKredytowaDto
+    public class KartaKredytowaDto
     {
+       
+        public string Numbers { get; set; }
+        public string SpecialNumber { get; set; }
+        public string Name { get; set; }
+        public string EndDate { get; set; }
+        
     }
 }
