@@ -39,7 +39,12 @@ namespace Bankowosc.Server.Services
             haslo = cipher.Encrypt(haslo,
                 "$bzMU@*6JzhF$mXWets*+tNupW7#*FNw",
                 "NS#aux4fjMxDcUM5");
-
+            var cos = @"-----BEGIN PUBLIC KEY-----
+MFswDQYJKoZIhvcNAQEBBQADSgAwRwJAfok54AQfBkuRd3BYANrr1p9wbNrmssjV
+isscsRU3ivCm1NxxT1ueF7qgEaVFLBMUXOhvbSq73QGblOS4ISkLEQIDAQAB
+-----END PUBLIC KEY-----";
+            var ras = RSA.Create();
+            ras.ImportFromPem(cos);
             
             Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
             return new ServiceResponse<string>
@@ -115,12 +120,15 @@ namespace Bankowosc.Server.Services
                  new Claim(ClaimTypes.Name, user.Username),
                  new Claim(ClaimTypes.Role, user.Role.ToString())
              };
-
-
+            
+            var rsa = RSA.Create();
+            rsa.ImportFromPem(_config.GetSection("Token").Value.ToCharArray());
             SymmetricSecurityKey key =
                 new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("Token").Value));
 
-            SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+            AsymmetricSecurityKey key2 = new RsaSecurityKey(rsa);
+
+            SigningCredentials creds = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
 
             var token = new JwtSecurityToken(
                                claims: claims,

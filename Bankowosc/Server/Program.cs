@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using Bankowosc.Server.Models;
 using Bankowosc.Server.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -5,6 +6,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Xml;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,12 +26,17 @@ string token = builder.Configuration.GetSection("Token").Value;
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
     {
-       
+     
+            
+        var rsa = RSA.Create();
+        
+        rsa.ImportFromPem(token.ToCharArray());
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateAudience = false,
             ValidateIssuer = false,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(token)),
+            ValidateLifetime = true,
+            IssuerSigningKey = new RsaSecurityKey(rsa),
             ValidateIssuerSigningKey = true,
         };
     });
