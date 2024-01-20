@@ -4,7 +4,9 @@ using Bankowosc.Server.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
+using Bankowosc.Server.encription;
 using Microsoft.EntityFrameworkCore;
 using Bankowosc.Shared.Message;
 
@@ -31,17 +33,21 @@ namespace Bankowosc.Server.Services
         {
             var Salt = BCrypt.Net.BCrypt.GenerateSalt();
             string haslo = "Zupelneogronad@n^*(2";
-            for (int i = 0; i < 100 ; i++)
-            {
-                haslo = BCrypt.Net.BCrypt.HashPassword(haslo, Salt);
-            }
 
-           
+            //haslo = BCrypt.Net.BCrypt.HashPassword(haslo, 16);
+            
+            haslo = cipher.Encrypt(haslo,
+                "$bzMU@*6JzhF$mXWets*+tNupW7#*FNw",
+                "NS#aux4fjMxDcUM5");
+
+            
+            Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
             return new ServiceResponse<string>
             {
                 Success = true,
                 Data = haslo,
-                Message = Salt
+                Message = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32))//cipher.Decrypt(haslo,"$bzMU@*6JzhF$mXWets*+tNupW7#*FNw",
+                //"NS#aux4fjMxDcUM5")
                 
             };
             BCrypt.Net.BCrypt.HashPassword("haloludzie");
