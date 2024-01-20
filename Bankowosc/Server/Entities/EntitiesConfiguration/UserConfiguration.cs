@@ -20,13 +20,15 @@ namespace Bankowosc.Server.Entities.EntitiesConfiguration
             builder.Property(p => p.ClientNumber)
                 .HasMaxLength(10)
                 .IsRequired();
+            builder.Property(x => x.Iv)
+                .HasColumnType("varbinary(16)")
+                .IsRequired();
 
             builder.Property(p => p.PasswordHash)
                 .HasMaxLength(60)
             .IsRequired();
             
-            builder.Property(p => p.PeselHash)
-                .HasMaxLength(60)
+            builder.Property(p => p.Pesel)
                 .IsRequired();
 
             builder.Property(p => p.Role)

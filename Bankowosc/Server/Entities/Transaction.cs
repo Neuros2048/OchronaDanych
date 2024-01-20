@@ -9,6 +9,7 @@
         public string AccountNumberSender { get; set; }
         public string AccountNumberReceiver { get; set; }
         public decimal Money { get; set; }
+        public byte [ ] Iv { get; set; }
         public DateTime DateTime { get; set; } = DateTime.Now;
         
         public Account AccountSender { get; set; }

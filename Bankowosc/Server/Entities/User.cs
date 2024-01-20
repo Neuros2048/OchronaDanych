@@ -12,7 +12,8 @@ namespace Bankowosc.Server.Entities
         public Role Role { get; set; } = Role.USER;
         
         public string ClientNumber { get; set; }
-        public string PeselHash { get; set; }
+        public byte[] Iv { get; set; }
+        public string Pesel { get; set; }
         public DateTime DateCreated { get; set; } = DateTime.Now;
         
         public Account Account { get; set; }

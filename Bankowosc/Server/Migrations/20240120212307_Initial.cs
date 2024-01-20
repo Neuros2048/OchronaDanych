@@ -40,7 +40,8 @@ namespace Bankowosc.Server.Migrations
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Role = table.Column<int>(type: "int", nullable: false),
                     ClientNumber = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    PeselHash = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    Iv = table.Column<byte[]>(type: "varbinary(16)", nullable: false),
+                    Pesel = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -75,11 +76,12 @@ namespace Bankowosc.Server.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Numbers = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: false),
-                    SpecialNumber = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
+                    Numbers = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SpecialNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EndDate = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: false),
+                    EndDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Pin = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Iv = table.Column<byte[]>(type: "varbinary(16)", nullable: false),
                     AcountId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
@@ -102,9 +104,10 @@ namespace Bankowosc.Server.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Sender = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Receiver = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AccountNumberSender = table.Column<string>(type: "nvarchar(26)", maxLength: 26, nullable: false),
-                    AccountNumberReceiver = table.Column<string>(type: "nvarchar(26)", maxLength: 26, nullable: false),
+                    AccountNumberSender = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AccountNumberReceiver = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Money = table.Column<decimal>(type: "decimal(19,4)", nullable: false),
+                    Iv = table.Column<byte[]>(type: "varbinary(16)", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AcountSenderId = table.Column<long>(type: "bigint", nullable: false),
                     AcountReceiverId = table.Column<long>(type: "bigint", nullable: false)
@@ -126,12 +129,12 @@ namespace Bankowosc.Server.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "ClientNumber", "DateCreated", "Email", "PasswordHash", "PeselHash", "PhoneNumber", "Role", "Username" },
+                columns: new[] { "Id", "ClientNumber", "DateCreated", "Email", "Iv", "PasswordHash", "Pesel", "PhoneNumber", "Role", "Username" },
                 values: new object[,]
                 {
-                    { 1L, "4732129813", new DateTime(2024, 1, 19, 22, 32, 53, 519, DateTimeKind.Local).AddTicks(7351), "user1@example.com", "$2a$11$/mb61PYFJRcQwpgGyR089ujK0CZEBjQwKKX0unXoZbZVTYG/WW3Jm", "a", "1234567890", 0, "user1" },
-                    { 2L, "3718005120", new DateTime(2024, 1, 19, 22, 32, 53, 519, DateTimeKind.Local).AddTicks(7358), "user2@example.com", "$2a$11$aXmxeKeEc.YAJ.xVyv2TReQAPiqIArKtUO7OFJ1QSxpP2Bn.IpPKq", "a", "9876543210", 0, "user2" },
-                    { 3L, "9381230124", new DateTime(2024, 1, 19, 22, 32, 53, 519, DateTimeKind.Local).AddTicks(7392), "user3@example.com", "$2a$11$nasG4aM4pQbOM.Rq4i1FBejdUhYEfXwrifah0xwMgffhwmshn.Z/.", "a", "5555555555", 0, "user3" }
+                    { 1L, "4732129813", new DateTime(2024, 1, 20, 22, 23, 7, 24, DateTimeKind.Local).AddTicks(6222), "Gx84vi7an4iK6BmOm334XMX3IH5F/aW2P84sWzh1FQg=", new byte[] { 155, 14, 174, 156, 139, 120, 152, 214, 15, 2, 60, 23, 213, 243, 114, 48 }, "$2a$16$9y7PkkwBhYZC3KaQuB2AM.1w47pi69/cckSr6LRkl4D3gM8kCajFa", "h/TP+QtRpmtu2T5tkJ9shA==", "LeFTYBzYJ+m+h26PMvfM6A==", 0, "9WBPXLhjhRk+OYhoUYC2dA==" },
+                    { 2L, "3718005120", new DateTime(2024, 1, 20, 22, 23, 7, 24, DateTimeKind.Local).AddTicks(6792), "+LjXFJQO+q4wXUJDVtUPlVO//0ruad9wNVGTb3EZE6E=", new byte[] { 206, 168, 122, 253, 6, 190, 136, 102, 32, 114, 214, 238, 245, 222, 40, 229 }, "$2a$16$etnQx9rN9xWFZvyPmloOSeRua0.sXjMiIMyf5dAfBGckfs3Fo.a8e", "f7/VzVDBjpAaePN6mmAeig==", "DyMgSOXz4NYukHpROqUcfg==", 0, "soe0O9Fj6z/7PJIiS2RHJw==" },
+                    { 3L, "9381230124", new DateTime(2024, 1, 20, 22, 23, 7, 24, DateTimeKind.Local).AddTicks(6992), "uusALUpz7Fp6lFfnWjETeFVcm9DF++ONe2GiD1OHA0g=", new byte[] { 89, 245, 34, 7, 191, 201, 143, 39, 85, 47, 227, 36, 161, 9, 0, 23 }, "$2a$16$Uh3cuvQzs3oe60TzDDR9q.Zli525RGU5rtyDLDoIRI7vrK6ogVWZG", "u0pcUwhbqY8B38omuJ2XKA==", "NMn+dC4F09zDeLStmRzr1w==", 0, "0Eeyw5zZ0fq1W50FNrnDGg==" }
                 });
 
             migrationBuilder.InsertData(
@@ -142,6 +145,16 @@ namespace Bankowosc.Server.Migrations
                     { 1L, "11111111111111111111111111", 1000.50m, 1L },
                     { 2L, "11111111111111111111111112", 500.75m, 2L },
                     { 3L, "11111111111111111111111113", 2000.30m, 3L }
+                });
+
+            migrationBuilder.InsertData(
+                table: "CreditCredits",
+                columns: new[] { "Id", "AcountId", "EndDate", "Iv", "Name", "Numbers", "Pin", "SpecialNumber" },
+                values: new object[,]
+                {
+                    { 1L, 1L, "kpRVh0i8H4BXEgEyRU0aeQ==", new byte[] { 153, 245, 155, 31, 14, 55, 101, 63, 177, 191, 218, 239, 51, 57, 33, 4 }, "LATA131BSg8+qZmtF50ERg==", "MDL9UXLBce3lwScpGoIZKALpd3qKf7xHjR5puyJjb08=", "$2a$16$AtVSqRtjtQPvgVZkQeEsL.DNZ/af6uE7khAw49.q75tI41sKqpaNq", "HaUuvgvTfnhyF7+Axyqx0Q==" },
+                    { 2L, 2L, "9q0RgbQfkIkxLR/LlPQwKg==", new byte[] { 161, 93, 0, 15, 146, 171, 37, 133, 28, 69, 108, 214, 112, 192, 190, 98 }, "sCxwM+G3IfiHUq3GlVQWGA==", "zNemxMOTzdAU6Eq0kK+h9yxi9qYw54jIgbYl0rEK7no=", "$2a$16$VOxlSpEafYjbrBISipCazOPhYQng/hZvkE8EWyDCcP4rTEkFu5b8O", "6JFiaRi61MtsHvi5VIXbFw==" },
+                    { 3L, 3L, "3AJssOfBa36un3HX9AHKuQ==", new byte[] { 174, 129, 207, 178, 55, 46, 135, 8, 163, 238, 68, 104, 100, 193, 135, 242 }, "OLKQcYA9b5KJ9AqSNNV7eg==", "Bq9CaZUYWZCaiV9uFNvZdFGwkTt5CPRyi/HbJgR/N2E=", "$2a$16$.VvJNl6dTawR3kWGcvj4GejYNOIsyuecVNOOlMJL5Z/GqTFpGziSC", "Fg7UAw6A34R/jO0B5Cyqhw==" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -166,12 +179,6 @@ namespace Bankowosc.Server.Migrations
                 name: "IX_CreditCredits_AcountId",
                 table: "CreditCredits",
                 column: "AcountId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CreditCredits_Numbers",
-                table: "CreditCredits",
-                column: "Numbers",
                 unique: true);
 
             migrationBuilder.CreateIndex(

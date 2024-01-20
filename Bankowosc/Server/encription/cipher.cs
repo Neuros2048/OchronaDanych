@@ -5,12 +5,12 @@ namespace Bankowosc.Server.encription;
 
 public class cipher
 {
-    public static string Encrypt(string text, string key,string iv)
+    public static string Encrypt(string text, string key,byte[] iv)
     {
         using (Aes aesAlg = Aes.Create())
         {
             aesAlg.Key = Encoding.UTF8.GetBytes(key);
-            aesAlg.IV = Encoding.UTF8.GetBytes(iv);
+            aesAlg.IV = iv;
 
             ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
 
@@ -28,12 +28,12 @@ public class cipher
         }
     }
 
-    public static string Decrypt(string encryptedText, string key,string iv)
+    public static string Decrypt(string encryptedText, string key,byte[] iv)
     {
         using (Aes aesAlg = Aes.Create())
         {
             aesAlg.Key = Encoding.UTF8.GetBytes(key);
-            aesAlg.IV = Encoding.UTF8.GetBytes(iv);
+            aesAlg.IV = iv;
 
             ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
 
@@ -51,8 +51,8 @@ public class cipher
         
     }
 
-    public static string GetRandomString(int size)
+    public static byte[] GetRandomBytes(int size)
     {
-        return Convert.ToBase64String(RandomNumberGenerator.GetBytes(size));
+        return RandomNumberGenerator.GetBytes(size) ;
     }
 }

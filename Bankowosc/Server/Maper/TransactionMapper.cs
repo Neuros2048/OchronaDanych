@@ -9,6 +9,7 @@ public class TransactionMapper
     {
         return new PrzelewDto
         {
+            Tytul = transaction.Title,
             Nadawca = transaction.Sender,
             KontoNadawcy = transaction.AccountNumberSender,
             Odbiorca = transaction.Receiver,

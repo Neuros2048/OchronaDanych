@@ -14,18 +14,18 @@ namespace Bankowosc.Server.Entities.EntitiesConfiguration
             builder.Property(x => x.Money)
                 .HasColumnType("decimal(19,4)")
                 .IsRequired();
-            
+            builder.Property(x => x.Iv)
+                .HasColumnType("varbinary(16)")
+                .IsRequired();
             builder.Property(x => x.Receiver)
                 .IsRequired();
             builder.Property(x => x.Sender)
                 .IsRequired();
 
             builder.Property(x => x.AccountNumberReceiver)
-                .HasMaxLength(26)
                 .IsRequired();
             
             builder.Property(x => x.AccountNumberSender)
-                .HasMaxLength(26)
                 .IsRequired();
             
             builder.HasOne(x => x.AccountSender)

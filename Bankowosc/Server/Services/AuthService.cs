@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Bankowosc.Server.encription;
+using Bankowosc.Shared.Dto;
 using Microsoft.EntityFrameworkCore;
 using Bankowosc.Shared.Message;
 
@@ -24,30 +25,68 @@ namespace Bankowosc.Server.Services
             _config = config;
         }
 
-        public async Task<ServiceResponse<bool>> ChangePassword(int userId, string newPassword)
+        public async Task<ServiceResponse<bool>> ChangePassword(ChangePasswordDto changePasswordDto, int userId)
         {
-            return null;
+            if (!changePasswordDto.NewPassword.Equals(changePasswordDto.ConfirmPassword))
+            {
+                return new ServiceResponse<bool>()
+                {
+                    Success = false,
+                    Message = "Nowe hasła nie są idetyczne"
+                };
+            }
+            string message = "Nie stare hasło";
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            if (await IsBlocked(user.ClientNumber))
+            {
+                return new ServiceResponse<bool>()
+                {
+                    Success = false,
+                    Message = "Zmiana hasła jest zablokowana"
+                };
+            }
+            
+            
+            
+            bool ans = VerifyPasswordHash(changePasswordDto.LastPassword, user.PasswordHash);
+            if (!ans)
+            {
+                return new ServiceResponse<bool>()
+                {
+                    Success = false,
+                    Message = message
+                };
+            }
+
+            await CorrectLogin(user.ClientNumber);
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(changePasswordDto.NewPassword, 16);
+            await _context.SaveChangesAsync();
+            return new ServiceResponse<bool>()
+            {
+                Message = "hasło zostało zmienione",
+                Success = true
+            };
         }
 
         public async Task<ServiceResponse<string>> Login2()
         {
             var Salt = BCrypt.Net.BCrypt.GenerateSalt();
-            string haslo = "Zupelneogronad@n^*(2";
-
+            var b = cipher.GetRandomBytes(16);
+            string haslo = "Zupelneąćłłwóźż!#@ad@n^*(2";
+            
             //haslo = BCrypt.Net.BCrypt.HashPassword(haslo, 16);
             
-            haslo = cipher.Encrypt(haslo,
+           var haslo1 = cipher.Encrypt(haslo,
                 "$bzMU@*6JzhF$mXWets*+tNupW7#*FNw",
-                "NS#aux4fjMxDcUM5");
-
+                b);
+        
+          
             
-            Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
             return new ServiceResponse<string>
             {
                 Success = true,
                 Data = haslo,
-                Message = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32))//cipher.Decrypt(haslo,"$bzMU@*6JzhF$mXWets*+tNupW7#*FNw",
-                //"NS#aux4fjMxDcUM5")
+                Message =  "h"
                 
             };
             BCrypt.Net.BCrypt.HashPassword("haloludzie");
@@ -96,14 +135,9 @@ namespace Bankowosc.Server.Services
 
         private bool VerifyPasswordHash(string password, string passwordHash)
         {
-            string Salt = passwordHash.Substring(0, 29);
-            
-            for (int i = 0; i < ReHash; i++)
-            {
-                password = BCrypt.Net.BCrypt.HashPassword(password, Salt);
-            }
+            return BCrypt.Net.BCrypt.Verify(password, passwordHash);
 
-            return passwordHash.Equals(password);
+            
 
         }
 

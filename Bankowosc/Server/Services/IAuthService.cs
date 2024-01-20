@@ -1,4 +1,5 @@
 ﻿using Bankowosc.Server.Entities;
+using Bankowosc.Shared.Dto;
 using Bankowosc.Shared.Message;
 
 namespace Bankowosc.Server.Services
@@ -11,7 +12,7 @@ namespace Bankowosc.Server.Services
 
         Task<bool> UserExists(string email);
 
-        Task<ServiceResponse<bool>> ChangePassword(int userId, string newPassword);
+        Task<ServiceResponse<bool>> ChangePassword(ChangePasswordDto changePasswordDto, int userId);
 
         Task<ServiceResponse<string>> Login2();
     }

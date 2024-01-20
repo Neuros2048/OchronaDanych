@@ -1,4 +1,6 @@
-﻿using Bankowosc.Server.Entities;
+﻿using Bankowosc.Server.encription;
+using Bankowosc.Server.Entities;
+using Bankowosc.Server.Entities.encryptEntities;
 
 namespace Bankowosc.Server.Models;
 
@@ -8,39 +10,45 @@ public class Seeder
     {
         return  new List<User>
         {
+            EncryptUser.Encrypt(
             new User
             {
                 Id = 1,
                 Username = "user1",
-                PasswordHash = "$2a$11$/mb61PYFJRcQwpgGyR089ujK0CZEBjQwKKX0unXoZbZVTYG/WW3Jm",
+                PasswordHash = "$2a$16$9y7PkkwBhYZC3KaQuB2AM.1w47pi69/cckSr6LRkl4D3gM8kCajFa",
                 Email = "user1@example.com",
                 PhoneNumber = "1234567890",
                 ClientNumber = "4732129813",
-                PeselHash = "a",
+                Pesel = "94022239261",
+                Iv = cipher.GetRandomBytes(16),
                 DateCreated = DateTime.Now
-            },
+            }),
+            EncryptUser.Encrypt(
             new User
             {
                 Id = 2,
                 Username = "user2",
-                PasswordHash = "$2a$11$aXmxeKeEc.YAJ.xVyv2TReQAPiqIArKtUO7OFJ1QSxpP2Bn.IpPKq",
+                PasswordHash = "$2a$16$etnQx9rN9xWFZvyPmloOSeRua0.sXjMiIMyf5dAfBGckfs3Fo.a8e",
                 Email = "user2@example.com",
                 PhoneNumber = "9876543210",
                 ClientNumber = "3718005120",
-                PeselHash = "a",
+                Pesel = "04222571384",
+                Iv = cipher.GetRandomBytes(16),
                 DateCreated = DateTime.Now
-            },
+            }),
+            EncryptUser.Encrypt(
             new User
             {
                 Id = 3,
                 Username = "user3",
-                PasswordHash = "$2a$11$nasG4aM4pQbOM.Rq4i1FBejdUhYEfXwrifah0xwMgffhwmshn.Z/.",
+                PasswordHash = "$2a$16$Uh3cuvQzs3oe60TzDDR9q.Zli525RGU5rtyDLDoIRI7vrK6ogVWZG",
                 Email = "user3@example.com",
                 PhoneNumber = "5555555555",
                 ClientNumber = "9381230124",
-                PeselHash = "a",
+                Pesel = "05312414343",
+                Iv = cipher.GetRandomBytes(16),
                 DateCreated = DateTime.Now
-            }
+            })
         };
     }
     
@@ -76,6 +84,7 @@ public class Seeder
     {
         return new List<CreditCard>()
         {
+            EncryptCreditCard.Encrypt(
             new CreditCard
             {
                 Id = 1,
@@ -83,27 +92,32 @@ public class Seeder
                 SpecialNumber = "522",
                 Name = "Jakub Wysocki",
                 EndDate = "11/2030",
-                Pin = "3341",
+                Pin = "$2a$16$AtVSqRtjtQPvgVZkQeEsL.DNZ/af6uE7khAw49.q75tI41sKqpaNq", //"3341"
+                Iv = cipher.GetRandomBytes(16),
                 AcountId = 1,
-            },new CreditCard
+            }),
+            EncryptCreditCard.Encrypt(new CreditCard
             {
                 Id = 2,
                 Numbers = "5541762873150411",
                 SpecialNumber = "972",
                 Name = "Piotr Wysocki",
                 EndDate = "03/2024",
-                Pin = "5136",
+                Pin ="$2a$16$VOxlSpEafYjbrBISipCazOPhYQng/hZvkE8EWyDCcP4rTEkFu5b8O" , //"5136"
+                Iv = cipher.GetRandomBytes(16),
                 AcountId = 2,
-            },new CreditCard
+            }),
+            EncryptCreditCard.Encrypt(new CreditCard
             {
                 Id = 3,
                 Numbers = "5541763721941795",
                 SpecialNumber = "827",
                 Name = "Szymon Szmigiel",
                 EndDate = "11/2026",
-                Pin = "3881",
+                Pin ="$2a$16$.VvJNl6dTawR3kWGcvj4GejYNOIsyuecVNOOlMJL5Z/GqTFpGziSC", //"3881"
+                Iv = cipher.GetRandomBytes(16),
                 AcountId = 3,
-            },
+            }),
         };
     }
     

@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Transactions;
+using Bankowosc.Server.encription;
+using Bankowosc.Server.Entities.encryptEntities;
 using Bankowosc.Server.Maper;
 using Bankowosc.Server.Models;
 using Bankowosc.Shared.Dto;
@@ -56,10 +58,13 @@ public class BankService
         newTransaction.AccountNumberSender = accout.AccountNumber;
         newTransaction.AcountSenderId = accout.Id;
         newTransaction.AcountReceiverId = recAccout.Id;
-        newTransaction.Sender = user.Username;
+        newTransaction.Sender = EncryptUser.decryptUsername(user.Username,user.Iv) ;
         var revecerName = await _context.Users.FirstOrDefaultAsync(x => x.Id == recAccout.UserId);
-        newTransaction.Receiver = revecerName.Username;
+        newTransaction.Receiver = EncryptUser.decryptUsername(revecerName.Username,revecerName.Iv);
         newTransaction.DateTime = DateTime.Now;
+        newTransaction.Iv = cipher.GetRandomBytes(16);
+        newTransaction = EncryptTransaction.EcryptTransaction(newTransaction);
+      
         await _context.TransacionHistory.AddAsync(newTransaction);
         await _context.SaveChangesAsync();
         return new ServiceResponse<bool>()
@@ -83,7 +88,7 @@ public class BankService
 
         var ans = _context.TransacionHistory.Where(x =>
                 x.AcountReceiverId == account.Id || x.AcountSenderId == account.Id)
-            .Select(x => TransactionMapper.mapTransaction(x)).ToList();
+            .Select(x => TransactionMapper.mapTransaction(EncryptTransaction.DecryptTransaction(x))).ToList();
         ans.Reverse();
         return new ServiceResponse<List<PrzelewDto>>()
         {
@@ -140,7 +145,7 @@ public class BankService
         return new ServiceResponse<KartaKredytowaDto>()
         {
             Success = true,
-            Data = CreditCardMapper.CredicCardToDto(card)
+            Data = CreditCardMapper.CredicCardToDto(EncryptCreditCard.Dencrypt(card))
         };
     }
     
@@ -158,7 +163,7 @@ public class BankService
 
         return new ServiceResponse<UserDto>()
         {
-            Data = UserMapper.UsertoDot(result),
+            Data = UserMapper.UsertoDot(EncryptUser.Decrept(result)),
             Success = true
         };
     }

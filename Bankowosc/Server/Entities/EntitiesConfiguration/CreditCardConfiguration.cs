@@ -8,18 +8,20 @@ namespace Bankowosc.Server.Entities.EntitiesConfiguration
         public void Configure(EntityTypeBuilder<CreditCard> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasIndex(x => x.Numbers)
-                .IsUnique();
+          
             builder.Property(x => x.Numbers)
-                .HasMaxLength(12)
                 .IsRequired();
             builder.Property(x => x.SpecialNumber)
-                .HasMaxLength(3)
                 .IsRequired();
             builder.Property(x => x.EndDate)
-                .HasMaxLength(4)
                 .IsRequired();
-
+            builder.Property(x => x.Iv)
+                .HasColumnType("varbinary(16)")
+                .IsRequired();
+            builder.Property(x => x.Pin)
+                .IsRequired();
+            builder.Property(x => x.Name)
+                .IsRequired();
             builder.HasOne(x => x.Account)
                 .WithOne(x => x.CreditCard)
                 .HasForeignKey<CreditCard>(x => x.AcountId);

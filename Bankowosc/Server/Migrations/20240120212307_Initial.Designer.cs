@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bankowosc.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240119213253_Initial")]
+    [Migration("20240120212307_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -118,8 +118,11 @@ namespace Bankowosc.Server.Migrations
 
                     b.Property<string>("EndDate")
                         .IsRequired()
-                        .HasMaxLength(4)
-                        .HasColumnType("nvarchar(4)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Iv")
+                        .IsRequired()
+                        .HasColumnType("varbinary(16)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -127,8 +130,7 @@ namespace Bankowosc.Server.Migrations
 
                     b.Property<string>("Numbers")
                         .IsRequired()
-                        .HasMaxLength(12)
-                        .HasColumnType("nvarchar(12)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Pin")
                         .IsRequired()
@@ -136,18 +138,49 @@ namespace Bankowosc.Server.Migrations
 
                     b.Property<string>("SpecialNumber")
                         .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AcountId")
                         .IsUnique();
 
-                    b.HasIndex("Numbers")
-                        .IsUnique();
-
                     b.ToTable("CreditCredits");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            AcountId = 1L,
+                            EndDate = "kpRVh0i8H4BXEgEyRU0aeQ==",
+                            Iv = new byte[] { 153, 245, 155, 31, 14, 55, 101, 63, 177, 191, 218, 239, 51, 57, 33, 4 },
+                            Name = "LATA131BSg8+qZmtF50ERg==",
+                            Numbers = "MDL9UXLBce3lwScpGoIZKALpd3qKf7xHjR5puyJjb08=",
+                            Pin = "$2a$16$AtVSqRtjtQPvgVZkQeEsL.DNZ/af6uE7khAw49.q75tI41sKqpaNq",
+                            SpecialNumber = "HaUuvgvTfnhyF7+Axyqx0Q=="
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            AcountId = 2L,
+                            EndDate = "9q0RgbQfkIkxLR/LlPQwKg==",
+                            Iv = new byte[] { 161, 93, 0, 15, 146, 171, 37, 133, 28, 69, 108, 214, 112, 192, 190, 98 },
+                            Name = "sCxwM+G3IfiHUq3GlVQWGA==",
+                            Numbers = "zNemxMOTzdAU6Eq0kK+h9yxi9qYw54jIgbYl0rEK7no=",
+                            Pin = "$2a$16$VOxlSpEafYjbrBISipCazOPhYQng/hZvkE8EWyDCcP4rTEkFu5b8O",
+                            SpecialNumber = "6JFiaRi61MtsHvi5VIXbFw=="
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            AcountId = 3L,
+                            EndDate = "3AJssOfBa36un3HX9AHKuQ==",
+                            Iv = new byte[] { 174, 129, 207, 178, 55, 46, 135, 8, 163, 238, 68, 104, 100, 193, 135, 242 },
+                            Name = "OLKQcYA9b5KJ9AqSNNV7eg==",
+                            Numbers = "Bq9CaZUYWZCaiV9uFNvZdFGwkTt5CPRyi/HbJgR/N2E=",
+                            Pin = "$2a$16$.VvJNl6dTawR3kWGcvj4GejYNOIsyuecVNOOlMJL5Z/GqTFpGziSC",
+                            SpecialNumber = "Fg7UAw6A34R/jO0B5Cyqhw=="
+                        });
                 });
 
             modelBuilder.Entity("Bankowosc.Server.Entities.Transaction", b =>
@@ -160,13 +193,11 @@ namespace Bankowosc.Server.Migrations
 
                     b.Property<string>("AccountNumberReceiver")
                         .IsRequired()
-                        .HasMaxLength(26)
-                        .HasColumnType("nvarchar(26)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("AccountNumberSender")
                         .IsRequired()
-                        .HasMaxLength(26)
-                        .HasColumnType("nvarchar(26)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("AcountReceiverId")
                         .HasColumnType("bigint");
@@ -176,6 +207,10 @@ namespace Bankowosc.Server.Migrations
 
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<byte[]>("Iv")
+                        .IsRequired()
+                        .HasColumnType("varbinary(16)");
 
                     b.Property<decimal>("Money")
                         .HasColumnType("decimal(19,4)");
@@ -221,15 +256,18 @@ namespace Bankowosc.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("Iv")
+                        .IsRequired()
+                        .HasColumnType("varbinary(16)");
+
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("nvarchar(60)");
 
-                    b.Property<string>("PeselHash")
+                    b.Property<string>("Pesel")
                         .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("nvarchar(60)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
@@ -254,37 +292,40 @@ namespace Bankowosc.Server.Migrations
                         {
                             Id = 1L,
                             ClientNumber = "4732129813",
-                            DateCreated = new DateTime(2024, 1, 19, 22, 32, 53, 519, DateTimeKind.Local).AddTicks(7351),
-                            Email = "user1@example.com",
-                            PasswordHash = "$2a$11$/mb61PYFJRcQwpgGyR089ujK0CZEBjQwKKX0unXoZbZVTYG/WW3Jm",
-                            PeselHash = "a",
-                            PhoneNumber = "1234567890",
+                            DateCreated = new DateTime(2024, 1, 20, 22, 23, 7, 24, DateTimeKind.Local).AddTicks(6222),
+                            Email = "Gx84vi7an4iK6BmOm334XMX3IH5F/aW2P84sWzh1FQg=",
+                            Iv = new byte[] { 155, 14, 174, 156, 139, 120, 152, 214, 15, 2, 60, 23, 213, 243, 114, 48 },
+                            PasswordHash = "$2a$16$9y7PkkwBhYZC3KaQuB2AM.1w47pi69/cckSr6LRkl4D3gM8kCajFa",
+                            Pesel = "h/TP+QtRpmtu2T5tkJ9shA==",
+                            PhoneNumber = "LeFTYBzYJ+m+h26PMvfM6A==",
                             Role = 0,
-                            Username = "user1"
+                            Username = "9WBPXLhjhRk+OYhoUYC2dA=="
                         },
                         new
                         {
                             Id = 2L,
                             ClientNumber = "3718005120",
-                            DateCreated = new DateTime(2024, 1, 19, 22, 32, 53, 519, DateTimeKind.Local).AddTicks(7358),
-                            Email = "user2@example.com",
-                            PasswordHash = "$2a$11$aXmxeKeEc.YAJ.xVyv2TReQAPiqIArKtUO7OFJ1QSxpP2Bn.IpPKq",
-                            PeselHash = "a",
-                            PhoneNumber = "9876543210",
+                            DateCreated = new DateTime(2024, 1, 20, 22, 23, 7, 24, DateTimeKind.Local).AddTicks(6792),
+                            Email = "+LjXFJQO+q4wXUJDVtUPlVO//0ruad9wNVGTb3EZE6E=",
+                            Iv = new byte[] { 206, 168, 122, 253, 6, 190, 136, 102, 32, 114, 214, 238, 245, 222, 40, 229 },
+                            PasswordHash = "$2a$16$etnQx9rN9xWFZvyPmloOSeRua0.sXjMiIMyf5dAfBGckfs3Fo.a8e",
+                            Pesel = "f7/VzVDBjpAaePN6mmAeig==",
+                            PhoneNumber = "DyMgSOXz4NYukHpROqUcfg==",
                             Role = 0,
-                            Username = "user2"
+                            Username = "soe0O9Fj6z/7PJIiS2RHJw=="
                         },
                         new
                         {
                             Id = 3L,
                             ClientNumber = "9381230124",
-                            DateCreated = new DateTime(2024, 1, 19, 22, 32, 53, 519, DateTimeKind.Local).AddTicks(7392),
-                            Email = "user3@example.com",
-                            PasswordHash = "$2a$11$nasG4aM4pQbOM.Rq4i1FBejdUhYEfXwrifah0xwMgffhwmshn.Z/.",
-                            PeselHash = "a",
-                            PhoneNumber = "5555555555",
+                            DateCreated = new DateTime(2024, 1, 20, 22, 23, 7, 24, DateTimeKind.Local).AddTicks(6992),
+                            Email = "uusALUpz7Fp6lFfnWjETeFVcm9DF++ONe2GiD1OHA0g=",
+                            Iv = new byte[] { 89, 245, 34, 7, 191, 201, 143, 39, 85, 47, 227, 36, 161, 9, 0, 23 },
+                            PasswordHash = "$2a$16$Uh3cuvQzs3oe60TzDDR9q.Zli525RGU5rtyDLDoIRI7vrK6ogVWZG",
+                            Pesel = "u0pcUwhbqY8B38omuJ2XKA==",
+                            PhoneNumber = "NMn+dC4F09zDeLStmRzr1w==",
                             Role = 0,
-                            Username = "user3"
+                            Username = "0Eeyw5zZ0fq1W50FNrnDGg=="
                         });
                 });
 
