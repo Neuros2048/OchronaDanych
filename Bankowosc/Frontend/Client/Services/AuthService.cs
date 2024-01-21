@@ -23,10 +23,10 @@ public class AuthService : IAuthService
         return data;
     }
 
-    public async Task<ServiceResponse<int>> Register(UserRegisterDTO userRegisterDTO)
+    public async Task<ServiceResponse<RegisterRespondDto>> Register(UserRegisterDTO userRegisterDTO)
     {
         var result = await _httpClient.PostAsJsonAsync("api/auth/register/", userRegisterDTO);
-        return await result.Content.ReadFromJsonAsync<ServiceResponse<int>>();
+        return await result.Content.ReadFromJsonAsync<ServiceResponse<RegisterRespondDto>>();
     }
 
     public async Task<bool> ChangePassword(ChangePasswordDto changePasswordDto)

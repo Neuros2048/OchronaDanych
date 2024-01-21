@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Bankowosc.Server.encription;
+using Bankowosc.Server.Entities.encryptEntities;
 using Bankowosc.Shared.Dto;
 using Microsoft.EntityFrameworkCore;
 using Bankowosc.Shared.Message;
@@ -18,7 +19,7 @@ namespace Bankowosc.Server.Services
 
         private readonly DataContext _context;
         private readonly IConfiguration _config;
-        private readonly int ReHash = 100;
+        private readonly int workFacktor = 16;
         public AuthService(DataContext context, IConfiguration config)
         {
             _context = context;
@@ -59,7 +60,7 @@ namespace Bankowosc.Server.Services
             }
 
             await CorrectLogin(user.ClientNumber);
-            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(changePasswordDto.NewPassword, 16);
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(changePasswordDto.NewPassword, workFacktor);
             await _context.SaveChangesAsync();
             return new ServiceResponse<bool>()
             {
@@ -70,23 +71,20 @@ namespace Bankowosc.Server.Services
 
         public async Task<ServiceResponse<string>> Login2()
         {
-            var Salt = BCrypt.Net.BCrypt.GenerateSalt();
+            
             var b = cipher.GetRandomBytes(16);
-            string haslo = "Zupelneąćłłwóźż!#@ad@n^*(2";
+            string haslo = "Bolakne12#$0sa";
             
-            //haslo = BCrypt.Net.BCrypt.HashPassword(haslo, 16);
-            
-           var haslo1 = cipher.Encrypt(haslo,
-                "$bzMU@*6JzhF$mXWets*+tNupW7#*FNw",
-                b);
+            haslo = BCrypt.Net.BCrypt.HashPassword(haslo, 16);
+         
         
           
             
             return new ServiceResponse<string>
             {
                 Success = true,
-                Data = haslo,
-                Message =  "h"
+                Data = "CTF",
+                Message =  "znalazłeś flage"
                 
             };
             BCrypt.Net.BCrypt.HashPassword("haloludzie");
@@ -166,12 +164,87 @@ namespace Bankowosc.Server.Services
             return tokenHandler;
         }
 
-        public async Task<ServiceResponse<int>> Register(User user, string password)
+        public async Task<ServiceResponse<RegisterRespondDto>> Register(UserRegisterDTO userRegisterDto)
         {
+            User user = new User();
+            Account account = new Account();
+            string userlogin = randomnumbers(10);
+            int error = 0;
+            while (await _context.Users.FirstOrDefaultAsync(x => x.ClientNumber.Equals(userlogin)) != null)
+            {
+                userlogin = randomnumbers(10);
+                error++;
+                if (error == 100)
+                {
+                    break;
+                }
+            }
+
+            if (error == 100)
+            {
+                return new ServiceResponse<RegisterRespondDto>()
+                {
+                    Success = false
+                };
+            }
+
+            string accountNumbers = randomnumbers(26);
+            error = 0;
+            while (await _context.Acounts.FirstOrDefaultAsync(x=>x.AccountNumber.Equals(accountNumbers))!= null)
+            {
+                accountNumbers = randomnumbers(26);
+                error++;
+                if (error == 100)
+                {
+                    break;
+                }
+            }
+            if (error == 100)
+            {
+                return new ServiceResponse<RegisterRespondDto>()
+                {
+                    Success = false
+                };
+            }
+
+            user.ClientNumber = userlogin;
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(userRegisterDto.Password, workFacktor);
+            user.Iv = cipher.GetRandomBytes(16);
+            user.Role = Role.USER;
+            user.Username = userRegisterDto.Username;
+            user.Email = userRegisterDto.Email;
+            user.Pesel = userRegisterDto.Pesel;
+            user.PhoneNumber = userRegisterDto.PhoneNumber;
+            user = EncryptUser.Encrypt(user);
+            var res = await _context.Users.AddAsync(user);
+            user = res.Entity;
+            account.Money = 0;
+            account.AccountNumber = accountNumbers;
+            account.User = user;
+            await _context.Acounts.AddAsync(account);
+            await _context.SaveChangesAsync();
+            return new ServiceResponse<RegisterRespondDto>()
+            {
+                Data = new RegisterRespondDto()
+                {
+                    accountNumber = account.AccountNumber,
+                    login = user.ClientNumber
+                },
+                Success = true
+            };
             
+        }
 
-            return new ServiceResponse<int> { Success = true, Data = 2, Message = "Registration successful!" };
+        private string randomnumbers(int size)
+        {
+            Random rnd = new Random();
+            string ans = string.Empty;
+            for (int i = 0; i < size; i++)
+            {
+                ans += rnd.Next(10).ToString();
+            }
 
+            return ans;
         }
 
         public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)

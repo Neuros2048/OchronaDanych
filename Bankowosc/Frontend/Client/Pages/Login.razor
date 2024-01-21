@@ -39,13 +39,14 @@
     private async Task HandleLogin()
     {
         logging = true;
+        message = string.Empty;
         var result = await AuthService.Login(userLoginDTO);
         if (result.Success)
         {
             await LocalStorageService.SetItemAsync("authToken", result.Data);
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             logging = false;
-            NavigationManager.NavigateTo("Konto");
+            NavigationManager.NavigateTo("/");
         }
         else
         {

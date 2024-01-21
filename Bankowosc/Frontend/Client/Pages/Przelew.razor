@@ -27,7 +27,7 @@
         <InputText  @bind-Value="@transactionDto.Tytul" class="form-control"></InputText>
             </div>
         <div class="form-group">
-            <p>Numer rahunku odbiorcy:</p>
+            <p>Numer rachunku odbiorcy:</p>
     <InputText  @bind-Value="@transactionDto.KontoOdbiorcy" class="form-control"></InputText>
         </div>
         <div class="form-group">
@@ -43,19 +43,22 @@
 <h3>@message</h3>
 
 
-<h3> @transactionDto.Kwota</h3>
+
 @code {
     private MakeTransactionDto transactionDto = new MakeTransactionDto();
 
-    private string message = "";
+    private string message = string.Empty;
+    
     private async Task HandlePrzelew()
     {
+        
         bool res = await _BanService.MakeTransaction(transactionDto);
         if (res)
         {
             NavigationManager.NavigateTo("/history");
             
         }
+        transactionDto.Kwota = 0;
         message = "nie udało się dokonać tranzakci";
 
     }

@@ -11,7 +11,8 @@ public class UserMapper
         {
             Email = user.Email,
             Phone = user.PhoneNumber,
-            Name = user.Username
+            Name = user.Username,
+            Pesel = user.Pesel
         };
     }
 }

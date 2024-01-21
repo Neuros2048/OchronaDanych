@@ -149,34 +149,34 @@ namespace Bankowosc.Server.Migrations
                         {
                             Id = 1L,
                             AcountId = 1L,
-                            EndDate = "kpRVh0i8H4BXEgEyRU0aeQ==",
-                            Iv = new byte[] { 153, 245, 155, 31, 14, 55, 101, 63, 177, 191, 218, 239, 51, 57, 33, 4 },
-                            Name = "LATA131BSg8+qZmtF50ERg==",
-                            Numbers = "MDL9UXLBce3lwScpGoIZKALpd3qKf7xHjR5puyJjb08=",
+                            EndDate = "obuXIE1EfRMyZDytXiRRZw==",
+                            Iv = new byte[] { 132, 232, 151, 124, 148, 101, 125, 142, 245, 82, 216, 243, 100, 62, 137, 178 },
+                            Name = "kVDJ51Ftwhuc7uPwB+Hepg==",
+                            Numbers = "RiHRxCNJ7ekNwF+7/HYr3INYRXVMwrqJAQA1+U++rgo=",
                             Pin = "$2a$16$AtVSqRtjtQPvgVZkQeEsL.DNZ/af6uE7khAw49.q75tI41sKqpaNq",
-                            SpecialNumber = "HaUuvgvTfnhyF7+Axyqx0Q=="
+                            SpecialNumber = "sLZYUMajdj8Zo3cRWiO6fQ=="
                         },
                         new
                         {
                             Id = 2L,
                             AcountId = 2L,
-                            EndDate = "9q0RgbQfkIkxLR/LlPQwKg==",
-                            Iv = new byte[] { 161, 93, 0, 15, 146, 171, 37, 133, 28, 69, 108, 214, 112, 192, 190, 98 },
-                            Name = "sCxwM+G3IfiHUq3GlVQWGA==",
-                            Numbers = "zNemxMOTzdAU6Eq0kK+h9yxi9qYw54jIgbYl0rEK7no=",
+                            EndDate = "503ATEUPqB5TRZX8jUi7Sg==",
+                            Iv = new byte[] { 129, 250, 49, 30, 11, 216, 20, 233, 195, 81, 66, 29, 73, 176, 184, 30 },
+                            Name = "hFDYcFEutliMtaltC+T6Jg==",
+                            Numbers = "0LBx8Y+Phg0ULt6Jsy7Wu2xITc4nUgG27TBxM9eXt/Q=",
                             Pin = "$2a$16$VOxlSpEafYjbrBISipCazOPhYQng/hZvkE8EWyDCcP4rTEkFu5b8O",
-                            SpecialNumber = "6JFiaRi61MtsHvi5VIXbFw=="
+                            SpecialNumber = "NFgZ1POI3ruOfBQVJaTJjQ=="
                         },
                         new
                         {
                             Id = 3L,
                             AcountId = 3L,
-                            EndDate = "3AJssOfBa36un3HX9AHKuQ==",
-                            Iv = new byte[] { 174, 129, 207, 178, 55, 46, 135, 8, 163, 238, 68, 104, 100, 193, 135, 242 },
-                            Name = "OLKQcYA9b5KJ9AqSNNV7eg==",
-                            Numbers = "Bq9CaZUYWZCaiV9uFNvZdFGwkTt5CPRyi/HbJgR/N2E=",
+                            EndDate = "RuKwDsDXTbLmll+Bm/aogA==",
+                            Iv = new byte[] { 95, 140, 14, 177, 179, 25, 248, 64, 38, 41, 12, 18, 79, 243, 73, 12 },
+                            Name = "AwiePtLQNyP7K+vFZ9a4Tw==",
+                            Numbers = "5TnH0okeB7qCbsEz+63Jq879Lo1ol6QjzMpDOu2ShTM=",
                             Pin = "$2a$16$.VvJNl6dTawR3kWGcvj4GejYNOIsyuecVNOOlMJL5Z/GqTFpGziSC",
-                            SpecialNumber = "Fg7UAw6A34R/jO0B5Cyqhw=="
+                            SpecialNumber = "XfZWqFNb26XjNRLAoFuyTw=="
                         });
                 });
 
@@ -289,40 +289,53 @@ namespace Bankowosc.Server.Migrations
                         {
                             Id = 1L,
                             ClientNumber = "4732129813",
-                            DateCreated = new DateTime(2024, 1, 20, 22, 23, 7, 24, DateTimeKind.Local).AddTicks(6222),
-                            Email = "Gx84vi7an4iK6BmOm334XMX3IH5F/aW2P84sWzh1FQg=",
-                            Iv = new byte[] { 155, 14, 174, 156, 139, 120, 152, 214, 15, 2, 60, 23, 213, 243, 114, 48 },
-                            PasswordHash = "$2a$16$9y7PkkwBhYZC3KaQuB2AM.1w47pi69/cckSr6LRkl4D3gM8kCajFa",
-                            Pesel = "h/TP+QtRpmtu2T5tkJ9shA==",
-                            PhoneNumber = "LeFTYBzYJ+m+h26PMvfM6A==",
+                            DateCreated = new DateTime(2024, 1, 21, 20, 3, 31, 743, DateTimeKind.Local).AddTicks(160),
+                            Email = "zc8wJ7ZvPxGk5lGyXvs1NoH7D/eXmDmceXcvByVuZtc=",
+                            Iv = new byte[] { 231, 58, 156, 240, 65, 101, 120, 33, 37, 158, 122, 119, 176, 16, 61, 40 },
+                            PasswordHash = "$2a$16$6TRN/d4k5iDejsbBWokESebo.guEHPvUtMXM0KqBzbaZhmClQyrH.",
+                            Pesel = "HyjZ/G9t22Y9u1aJ+6MZGA==",
+                            PhoneNumber = "2nAEkLTaTva8tcoiNs6bdw==",
                             Role = 0,
-                            Username = "9WBPXLhjhRk+OYhoUYC2dA=="
+                            Username = "BVfQpFAOn9ae4SZ9rnaOe0WUgQW9qVRkjrDBPXNLOHk="
                         },
                         new
                         {
                             Id = 2L,
                             ClientNumber = "3718005120",
-                            DateCreated = new DateTime(2024, 1, 20, 22, 23, 7, 24, DateTimeKind.Local).AddTicks(6792),
-                            Email = "+LjXFJQO+q4wXUJDVtUPlVO//0ruad9wNVGTb3EZE6E=",
-                            Iv = new byte[] { 206, 168, 122, 253, 6, 190, 136, 102, 32, 114, 214, 238, 245, 222, 40, 229 },
-                            PasswordHash = "$2a$16$etnQx9rN9xWFZvyPmloOSeRua0.sXjMiIMyf5dAfBGckfs3Fo.a8e",
-                            Pesel = "f7/VzVDBjpAaePN6mmAeig==",
-                            PhoneNumber = "DyMgSOXz4NYukHpROqUcfg==",
+                            DateCreated = new DateTime(2024, 1, 21, 20, 3, 31, 743, DateTimeKind.Local).AddTicks(912),
+                            Email = "tffoZQtTRYAkKJvMyWCN51bd9whQJtlNvRQnMrO5/KU=",
+                            Iv = new byte[] { 113, 192, 35, 145, 152, 233, 174, 212, 240, 132, 248, 196, 101, 91, 101, 111 },
+                            PasswordHash = "$2a$16$fRunnfJCi/Vi7SauYSoRMO6jfhtO2bquah7XZMJGzdkzZxaTZdHsG",
+                            Pesel = "NQMmBadTcb0VKnSScEmkoQ==",
+                            PhoneNumber = "B9jWJqzXVUN8bzwG0Tz89g==",
                             Role = 0,
-                            Username = "soe0O9Fj6z/7PJIiS2RHJw=="
+                            Username = "kdbYToBGBLydZezRxbjY7A=="
                         },
                         new
                         {
                             Id = 3L,
                             ClientNumber = "9381230124",
-                            DateCreated = new DateTime(2024, 1, 20, 22, 23, 7, 24, DateTimeKind.Local).AddTicks(6992),
-                            Email = "uusALUpz7Fp6lFfnWjETeFVcm9DF++ONe2GiD1OHA0g=",
-                            Iv = new byte[] { 89, 245, 34, 7, 191, 201, 143, 39, 85, 47, 227, 36, 161, 9, 0, 23 },
+                            DateCreated = new DateTime(2024, 1, 21, 20, 3, 31, 743, DateTimeKind.Local).AddTicks(1074),
+                            Email = "h33h6koqZQMLr4Z6A1cffOGkb7BDWi4wUAGNYBxqqIY=",
+                            Iv = new byte[] { 172, 252, 68, 32, 172, 28, 155, 122, 245, 17, 91, 83, 59, 195, 67, 99 },
                             PasswordHash = "$2a$16$Uh3cuvQzs3oe60TzDDR9q.Zli525RGU5rtyDLDoIRI7vrK6ogVWZG",
-                            Pesel = "u0pcUwhbqY8B38omuJ2XKA==",
-                            PhoneNumber = "NMn+dC4F09zDeLStmRzr1w==",
+                            Pesel = "uA5Lz8TfbxovcqOedokwLQ==",
+                            PhoneNumber = "3SWqp4COlQlLIdL5zUGV9A==",
                             Role = 0,
-                            Username = "0Eeyw5zZ0fq1W50FNrnDGg=="
+                            Username = "luJQHFzZEo0ZhzISTN+ECg=="
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            ClientNumber = "4398309612",
+                            DateCreated = new DateTime(2024, 1, 21, 20, 3, 31, 743, DateTimeKind.Local).AddTicks(1215),
+                            Email = "XVZT7qhxq1SU7xNE9tS4+QModpSmDo57zLu2+PPXWck=",
+                            Iv = new byte[] { 123, 192, 36, 1, 248, 171, 37, 76, 113, 118, 68, 166, 76, 7, 19, 209 },
+                            PasswordHash = "$2a$16$pKK0/EPMqLeDrwcDfU2xMOHUfExqE4ALg13eRv2sU1olmeXXokkxi",
+                            Pesel = "MgRGSvx0a901oKd6sRUlfA==",
+                            PhoneNumber = "YmJige1K8Q/1OZYJUgFiOQ==",
+                            Role = 1,
+                            Username = "KWeLxXOsNR+2b1FtdF+Te90uZAs7cEHV0v9BSMryiDQ="
                         });
                 });
 

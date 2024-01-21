@@ -48,7 +48,7 @@ public class BankService : IBanService
     public async Task<KartaKredytowaDto> getCreditCardData()
     {
         var result = await _http.GetFromJsonAsync<ServiceResponse<KartaKredytowaDto>>("api/Bank/CreditCardInfo");
-        return new KartaKredytowaDto();
+        
         if (result.Success)
         {
             return result.Data;

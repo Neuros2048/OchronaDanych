@@ -19,7 +19,7 @@ namespace Bankowosc.Server.Controllers
             _bankService = bankService;
         }
         
-        [HttpPost("transaction"), Authorize]
+        [HttpPost("transaction"), Authorize(Roles = "USER")]
         public async Task<ActionResult<ServiceResponse<bool>>> makeTransaction(MakeTransactionDto transactionDto )
         {
            
@@ -32,7 +32,7 @@ namespace Bankowosc.Server.Controllers
             return Ok(response);
         }
         
-        [HttpGet("history"), Authorize]
+        [HttpGet("history"), Authorize(Roles = "USER")]
         public async Task<ActionResult<ServiceResponse<List<PrzelewDto>>>> GetHistory()
         {
            
@@ -45,7 +45,7 @@ namespace Bankowosc.Server.Controllers
             return Ok(response);
         }
         
-        [HttpGet("AccountInfo"), Authorize]
+        [HttpGet("AccountInfo"), Authorize(Roles = "USER")]
         public async Task<ActionResult<ServiceResponse<DaneKontaDto>>> GetAccountInfo()
         {
            
@@ -57,7 +57,7 @@ namespace Bankowosc.Server.Controllers
             }
             return Ok(response);
         }
-        [HttpGet("CreditCardInfo"), Authorize]
+        [HttpGet("CreditCardInfo"), Authorize(Roles = "USER")]
         public async Task<ActionResult<ServiceResponse<KartaKredytowaDto>>> CreditCardInfo()
         {
            
@@ -69,7 +69,7 @@ namespace Bankowosc.Server.Controllers
             }
             return Ok(response);
         }
-        [HttpGet("UserInfo"), Authorize]
+        [HttpGet("UserInfo"), Authorize(Roles = "USER")]
         public async Task<ActionResult<ServiceResponse<UserDto>>> UserInfo()
         {
            

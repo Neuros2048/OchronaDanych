@@ -48,25 +48,21 @@ namespace Bankowosc.Server.Controllers
             return Ok(response);
         }
 
-        [HttpPost("register")]
-        public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegisterDTO userRegisterDTO)
+        [HttpPost("register"), Authorize(Roles = "ADMIN")]
+        public async Task<ActionResult<ServiceResponse<RegisterRespondDto>>> Register(UserRegisterDTO userRegisterDTO)
         {
             
             if (userRegisterDTO.ConfirmPassword != userRegisterDTO.Password)
             {
-                return BadRequest(new ServiceResponse<int>
+                return BadRequest(new ServiceResponse<RegisterRespondDto>
                 {
                     Success = false,
                     Message = "Passwords are not the same"
                 });
             }
-            var user = new User()
-            {
-                Email = userRegisterDTO.Email,
-                Username = userRegisterDTO.Username
-            };
+           
 
-            var response = await _authService.Register(user, userRegisterDTO.Password);
+            var response = await _authService.Register(userRegisterDTO);
             if (!response.Success)
             {
                 return BadRequest(response);
@@ -75,7 +71,7 @@ namespace Bankowosc.Server.Controllers
 
         }
 
-        [HttpPost("change-password"), Authorize]
+        [HttpPost("change-password"), Authorize(Roles = "USER")]
         public async Task<ActionResult<ServiceResponse<bool>>> ChangePassword(ChangePasswordDto changePasswordDto)
         {
            

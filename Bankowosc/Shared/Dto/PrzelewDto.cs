@@ -12,6 +12,7 @@ namespace Bankowosc.Shared.Dto
 
         public string Nadawca { get; set; } = "";
         [Required]
+        [MaxLength(40, ErrorMessage = "Za długa wartość")]
         [MinLength(1,ErrorMessage = "Pole jest wymagane")]
         public string Tytul { get; set; } = "";
         public string KontoNadawcy { get; set; } = "";

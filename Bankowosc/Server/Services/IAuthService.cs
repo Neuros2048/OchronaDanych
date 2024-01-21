@@ -8,7 +8,7 @@ namespace Bankowosc.Server.Services
     {
         Task<ServiceResponse<string>> Login(string email, string password);
 
-        Task<ServiceResponse<int>> Register(User user, string password);
+        Task<ServiceResponse<RegisterRespondDto>> Register(UserRegisterDTO registerDto);
 
         Task<bool> UserExists(string email);
 

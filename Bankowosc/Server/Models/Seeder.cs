@@ -1,6 +1,7 @@
 ﻿using Bankowosc.Server.encription;
 using Bankowosc.Server.Entities;
 using Bankowosc.Server.Entities.encryptEntities;
+using Bankowosc.Server.Entities.Enumerations;
 
 namespace Bankowosc.Server.Models;
 
@@ -14,12 +15,13 @@ public class Seeder
             new User
             {
                 Id = 1,
-                Username = "user1",
-                PasswordHash = "$2a$16$9y7PkkwBhYZC3KaQuB2AM.1w47pi69/cckSr6LRkl4D3gM8kCajFa",
+                Username = "Igor Czerwiński",
+                PasswordHash = "$2a$16$6TRN/d4k5iDejsbBWokESebo.guEHPvUtMXM0KqBzbaZhmClQyrH.",
                 Email = "user1@example.com",
                 PhoneNumber = "1234567890",
                 ClientNumber = "4732129813",
                 Pesel = "94022239261",
+                Role = Role.USER,
                 Iv = cipher.GetRandomBytes(16),
                 DateCreated = DateTime.Now
             }),
@@ -27,12 +29,13 @@ public class Seeder
             new User
             {
                 Id = 2,
-                Username = "user2",
-                PasswordHash = "$2a$16$etnQx9rN9xWFZvyPmloOSeRua0.sXjMiIMyf5dAfBGckfs3Fo.a8e",
+                Username = "Jetstraem Sam",
+                PasswordHash = "$2a$16$fRunnfJCi/Vi7SauYSoRMO6jfhtO2bquah7XZMJGzdkzZxaTZdHsG",
                 Email = "user2@example.com",
                 PhoneNumber = "9876543210",
                 ClientNumber = "3718005120",
                 Pesel = "04222571384",
+                Role = Role.USER,
                 Iv = cipher.GetRandomBytes(16),
                 DateCreated = DateTime.Now
             }),
@@ -40,15 +43,29 @@ public class Seeder
             new User
             {
                 Id = 3,
-                Username = "user3",
+                Username = "Ania Forger",
                 PasswordHash = "$2a$16$Uh3cuvQzs3oe60TzDDR9q.Zli525RGU5rtyDLDoIRI7vrK6ogVWZG",
                 Email = "user3@example.com",
                 PhoneNumber = "5555555555",
                 ClientNumber = "9381230124",
                 Pesel = "05312414343",
+                Role = Role.USER,
                 Iv = cipher.GetRandomBytes(16),
                 DateCreated = DateTime.Now
-            })
+            }),EncryptUser.Encrypt(
+            new User
+            {
+                Id = 4,
+                Username = "Jakub wysocki admin",
+                PasswordHash = "$2a$16$pKK0/EPMqLeDrwcDfU2xMOHUfExqE4ALg13eRv2sU1olmeXXokkxi",
+                Email = "user4@example.com",
+                PhoneNumber = "1234569750",
+                ClientNumber = "4398309612",
+                Pesel = "94022239961",
+                Role = Role.ADMIN,
+                Iv = cipher.GetRandomBytes(16),
+                DateCreated = DateTime.Now
+        }),
         };
     }
     
