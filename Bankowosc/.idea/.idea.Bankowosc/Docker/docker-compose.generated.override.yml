@@ -15,12 +15,10 @@ services:
       ASPNETCORE_ENVIRONMENT: "Development"
       ASPNETCORE_STATICWEBASSETS: "/app/bin/Debug/net7.0/Frontend.Server.staticwebassets.runtime.CT.json"
       DOTNET_USE_POLLING_FILE_WATCHER: "true"
-      NUGET_PACKAGES: "C:\\Users\\Jakub Wysocki\\.nuget\\packages"
-      NUGET_FALLBACK_PACKAGES: "C:\\Users\\Jakub Wysocki\\.nuget\\packages"
     image: "frontend.server:dev"
     ports: []
     volumes:
-    - "C:\\Users\\Jakub Wysocki\\.nuget\\packages:/root/.nuget/fallbackpackages"
+    - "C:\\Users\\Jakub Wysocki\\.nuget\\packages:/root/.nuget/packages"
     - "C:\\Users\\Jakub Wysocki\\Desktop\\projekt ogrona danych\\OchronaDanych\\Bankowosc\\\
       Frontend\\Server:/app:rw"
     - "C:\\Users\\Jakub Wysocki\\Desktop\\projekt ogrona danych\\OchronaDanych\\Bankowosc:/src:rw"
@@ -38,13 +36,11 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
       DOTNET_USE_POLLING_FILE_WATCHER: "true"
-      NUGET_PACKAGES: "C:\\Users\\Jakub Wysocki\\.nuget\\packages"
-      NUGET_FALLBACK_PACKAGES: "C:\\Users\\Jakub Wysocki\\.nuget\\packages"
     image: "bankowosc.server:dev"
     ports: []
     volumes:
     - "C:\\Users\\Jakub Wysocki\\AppData\\Roaming\\Microsoft\\UserSecrets:/root/.microsoft/usersecrets"
-    - "C:\\Users\\Jakub Wysocki\\.nuget\\packages:/root/.nuget/fallbackpackages"
+    - "C:\\Users\\Jakub Wysocki\\.nuget\\packages:/root/.nuget/packages"
     - "C:\\Users\\Jakub Wysocki\\Desktop\\projekt ogrona danych\\OchronaDanych\\Bankowosc\\\
       Server:/app:rw"
     - "C:\\Users\\Jakub Wysocki\\Desktop\\projekt ogrona danych\\OchronaDanych\\Bankowosc:/src:rw"
