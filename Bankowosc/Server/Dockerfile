@@ -7,7 +7,6 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["Server/Bankowosc.Server.csproj", "Server/"]
 COPY ["Shared/Bankowosc.Shared.csproj", "Shared/"]
-COPY ["Client/Bankowosc.Client.csproj", "Client/"]
 RUN dotnet restore "Server/Bankowosc.Server.csproj"
 COPY . .
 WORKDIR "/src/Server"

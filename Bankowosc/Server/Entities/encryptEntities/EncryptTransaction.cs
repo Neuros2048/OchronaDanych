@@ -5,12 +5,25 @@ namespace Bankowosc.Server.Entities.encryptEntities;
 
 public class EncryptTransaction
 {
-    private static string k1 = "txnB&q4#caKmvBErr2-=88e8!WxV#wGh";
-    private static string k2 = "KsUjCb6!d6uUt5G5==+ev4eejHYwuBRu";
-    private static string k3 = "8uYxeG#H37pggn5uh#4!4PaqGbJyzxK#";
-    private static string k4 = "Wyyu@2nXXd9P?hM5az?!daeQkV$Ym%v$";
-    private static string k5 = "MmTjdBd5qAZ933e49NpA3XDGZSm++VWF";
+    private static string k1 ;
+    private static string k2 ;
+    private static string k3 ;
+    private static string k4 ;
+    private static string k5 ;
 
+    public EncryptTransaction()
+    {
+        
+    }
+
+    public static void setKey(string k1, string k2, string k3, string k4, string k5)
+    {
+        EncryptTransaction.k1 = k1;
+        EncryptTransaction.k2 = k2;
+        EncryptTransaction.k3 = k3;
+        EncryptTransaction.k4 = k4;
+        EncryptTransaction.k5 = k5;
+    }
     public static Transaction DecryptTransaction(Transaction transaction)
     {
         return new Transaction

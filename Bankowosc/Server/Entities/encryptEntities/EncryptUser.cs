@@ -5,11 +5,23 @@ namespace Bankowosc.Server.Entities.encryptEntities;
 
 public class EncryptUser
 {
-    private static string k1 = "YUA$XXzp9bsP*He#!qJADY!6@7cdWWZn";
-    private static string k2 = "MvP&+sw!Y6whGeX4N@jtYH=k?rW2RWuq";
-    private static string k3 = "=!WJaWrP7hN=uSSxWPbjnk+hg$3WnjvJ";
-    private static string k4 = "7ZS#5Sj=r%fg%zGSdxsv!nyE3Z!GcFBT";
+    private static string k1 ;
+    private static string k2 ;
+    private static string k3 ;
+    private static string k4 ;
 
+    public EncryptUser()
+    {
+        
+    }
+
+    public static void setKey(string k1, string k2, string k3, string k4)
+    {
+        EncryptUser.k1 = k1;
+        EncryptUser.k2 = k2;
+        EncryptUser.k3 = k3;
+        EncryptUser.k4 = k4;
+    }
     public static User Decrept(User user)
     {
         return new User

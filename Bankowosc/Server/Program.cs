@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Bankowosc.Server.Entities.encryptEntities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,10 @@ builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+//builder.Services.AddScoped<EncryptCreditCard>();
+EncryptCreditCard.SetKey(builder.Configuration.GetSection("CreditCard:k1").Value,builder.Configuration.GetSection("CreditCard:k2").Value,builder.Configuration.GetSection("CreditCard:k3").Value,builder.Configuration.GetSection("CreditCard:k4").Value);
+EncryptUser.setKey(builder.Configuration.GetSection("User:k1").Value,builder.Configuration.GetSection("User:k2").Value,builder.Configuration.GetSection("User:k3").Value,builder.Configuration.GetSection("User:k4").Value);
+EncryptTransaction.setKey(builder.Configuration.GetSection("Transaction:k1").Value,builder.Configuration.GetSection("Transaction:k2").Value,builder.Configuration.GetSection("Transaction:k3").Value,builder.Configuration.GetSection("Transaction:k4").Value,builder.Configuration.GetSection("Transaction:k5").Value);
 
 string token = builder.Configuration.GetSection("Token").Value;
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -35,7 +40,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 var app = builder.Build();
- ///*
+// /*
 using (var serviceScope = builder.Services.BuildServiceProvider().CreateScope())
 {
     var dbContext = serviceScope.ServiceProvider.GetRequiredService<DataContext>();
@@ -50,7 +55,7 @@ using (var serviceScope = builder.Services.BuildServiceProvider().CreateScope())
         Console.WriteLine("No pending migrations.");
     }
 } 
- //*/
+// */
 app.UseCors(options => {
     options.AllowAnyMethod();
     options.AllowAnyHeader();

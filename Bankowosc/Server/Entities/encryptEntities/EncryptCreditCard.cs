@@ -1,14 +1,34 @@
-﻿using Bankowosc.Server.encription;
+﻿using System.Runtime.CompilerServices;
+using Bankowosc.Server.encription;
 
 namespace Bankowosc.Server.Entities.encryptEntities;
 
 public class EncryptCreditCard
 {
-    private static string k1 = "c-$XkuM9H+tvtqx4#CzvNExD=gAXwGC4";
-    private static string k2 = "ruwpyYb7mXSjMS-URFNKruAp+TMHhd6Z";
-    private static string k3 = "zwDMyBcSPWhxDkK3se52D-=QPQUrRG=F";
-    private static string k4 = "U@S6&v@cAkSz$P?#NyQch@Cc+=pc=8t@";
+    private static string k1 ;
+    private static string k2 ;
+    private static string k3 ;
+    private static string k4 ;
 
+    public EncryptCreditCard()
+    {
+        
+    }
+
+    public static void SetKey(string k1, string k2, string k3, string k4)
+    {
+        EncryptCreditCard.k1 = k1;
+        EncryptCreditCard.k2 = k2;
+        EncryptCreditCard.k3 = k3;
+        EncryptCreditCard.k4 = k4;
+    }
+    public class CardKeys
+    {
+        public static string k1 { get; set; }
+        public static string k2 { get; set; }
+        public static string k3 { get; set; }
+        public static string k4 { get; set; }
+    }
     public static CreditCard Dencrypt(CreditCard creditCard)
     {
         return new CreditCard

@@ -43,6 +43,7 @@ services:
     image: "bankowosc.server:dev"
     ports: []
     volumes:
+    - "C:\\Users\\Jakub Wysocki\\AppData\\Roaming\\Microsoft\\UserSecrets:/root/.microsoft/usersecrets"
     - "C:\\Users\\Jakub Wysocki\\.nuget\\packages:/root/.nuget/fallbackpackages"
     - "C:\\Users\\Jakub Wysocki\\Desktop\\projekt ogrona danych\\OchronaDanych\\Bankowosc\\\
       Server:/app:rw"
