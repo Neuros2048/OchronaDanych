@@ -23,15 +23,11 @@ public class BankService : IBanService
         return new List<PrzelewDto>();
     }
 
-    public async Task<bool> MakeTransaction(MakeTransactionDto transactionDto)
+    public async Task<ServiceResponse<bool>> MakeTransaction(MakeTransactionDto transactionDto)
     {
         var respond = await _http.PostAsJsonAsync("api/Bank/transaction", transactionDto);
-        if (respond.IsSuccessStatusCode)
-        {
-            return true;
-        }
-
-        return false;
+        var data = await respond.Content.ReadFromJsonAsync<ServiceResponse<bool>>();
+        return data;
     }
     
     public async Task<DaneKontaDto> getAccountData()

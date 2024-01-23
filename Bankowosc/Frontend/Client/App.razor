@@ -4,13 +4,11 @@
         <Found Context="routeData">
             <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" >
                 <NotAuthorized>
-                        <h3> <span>Whoops! You're not allowed to see this page.</span></h3>
+                        <h3> <span>Nie możesz zobaczyć tej strony.</span></h3>
                         <h5>
-                            Please <a href="login">
-                                login
-                            </a> or <a href="register">
-                                register
-                                </a>for a new account.
+                            Prosze <a href="login">
+                                Zaloguj się
+                            </a> 
                             
                          </h5>
                        
@@ -21,7 +19,7 @@
         <NotFound>
             <PageTitle>Not found</PageTitle>
             <LayoutView Layout="@typeof(MainLayout)">
-                <p role="alert">Sorry, there's nothing at this address.</p>
+                <p role="alert">Nic tu nie ma.</p>
             </LayoutView>
         </NotFound>
     </Router>

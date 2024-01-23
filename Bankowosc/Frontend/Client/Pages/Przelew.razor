@@ -1,4 +1,5 @@
 ﻿@page "/przelew"
+@using Bankowosc.Shared.Message
 @attribute [Authorize]
 @inject NavigationManager NavigationManager
 @inject IBanService _BanService
@@ -39,27 +40,36 @@
         <button type="submit" class="btn btn-primary w-100 my-4 mb-2">Dokonaj przelewu</button>
        
 </EditForm>
-
+@if (logging)
+    {
+        <div class="loader"></div>
+    }
+    @if (!string.IsNullOrEmpty(message))
+    {
+        <p>@message</p>
+    }
 <h3>@message</h3>
 
 
 
 @code {
     private MakeTransactionDto transactionDto = new MakeTransactionDto();
-
+    private bool logging = false;
     private string message = string.Empty;
     
     private async Task HandlePrzelew()
     {
-        
-        bool res = await _BanService.MakeTransaction(transactionDto);
-        if (res)
+        message = "";
+        logging = true;
+        ServiceResponse<bool> res = await _BanService.MakeTransaction(transactionDto);
+        logging = false;
+        if (res.Success)
         {
             NavigationManager.NavigateTo("/history");
             
         }
         transactionDto.Kwota = 0;
-        message = "nie udało się dokonać tranzakci";
+        message = res.Message;
 
     }
 

@@ -31,6 +31,15 @@ public class BankService
                 Message = "Konto nadawcy nie istnieje",
             };
         }
+
+        if (transaction.Kwota == 0M)
+        {
+            return new ServiceResponse<bool>()
+            {
+                Success = false,
+                Message = "Kwota musi być większ niż 0",
+            };
+        }
         var accout = await _context.Acounts.FirstOrDefaultAsync(x => x.UserId == userId);
 
         if (accout.Money < transaction.Kwota)
@@ -49,6 +58,23 @@ public class BankService
             {
                 Success = false,
                 Message = "Konto odbiorcy nie istnieje",
+            };
+        }
+
+        if (accout.Id == recAccout.Id)
+        {
+            return new ServiceResponse<bool>()
+            {
+                Success = false,
+                Message = "Nie możesz wysałać przelewów do siebie",
+            }; 
+        }
+        if (recAccout.Money + transaction.Kwota > 228162514264337593543950335M)
+        {
+            return new ServiceResponse<bool>()
+            {
+                Success = false,
+                Message = "Za duża kwota Przesłania",
             };
         }
 

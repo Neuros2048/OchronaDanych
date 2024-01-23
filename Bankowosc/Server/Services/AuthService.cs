@@ -71,15 +71,6 @@ namespace Bankowosc.Server.Services
 
         public async Task<ServiceResponse<string>> Login2()
         {
-            
-            var b = cipher.GetRandomBytes(16);
-            string haslo = "Bolakne12#$0sa";
-            
-            haslo = BCrypt.Net.BCrypt.HashPassword(haslo, 16);
-         
-        
-          
-            
             return new ServiceResponse<string>
             {
                 Success = true,
@@ -104,7 +95,8 @@ namespace Bankowosc.Server.Services
             var user = await _context.Users.FirstOrDefaultAsync(x => x.ClientNumber.Equals(login));
             if (user == null)
             {
-                VerifyPasswordHash("a", BCrypt.Net.BCrypt.GenerateSalt() + "a");
+                VerifyPasswordHash("a", "$2a$16$Q7g3V7su5eZFsf8Z0AjkzumtPIEMKouOultJDHrewewpCUUW9I.5S");
+                VerifyPasswordHash("a", "$2a$16$Q7g3V7su5eZFsf8Z0AjkzumtPIEMKouOultJDHrewewpCUUW9I.5S");
                 return new ServiceResponse<string>()
                 {
                     Success = false,
