@@ -71,7 +71,7 @@ namespace Bankowosc.Server.Controllers
 
         }
 
-        [HttpPost("change-password"), Authorize(Roles = "USER")]
+        [HttpPut("change-password"), Authorize(Roles = "USER")]
         public async Task<ActionResult<ServiceResponse<bool>>> ChangePassword(ChangePasswordDto changePasswordDto)
         {
            

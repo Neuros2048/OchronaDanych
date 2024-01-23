@@ -31,7 +31,7 @@ public class AuthService : IAuthService
 
     public async Task<bool> ChangePassword(ChangePasswordDto changePasswordDto)
     {
-        var result = await _httpClient.PostAsJsonAsync("api/auth/change-password/", changePasswordDto);
+        var result = await _httpClient.PutAsJsonAsync("api/auth/change-password/", changePasswordDto);
         if (result.IsSuccessStatusCode)
         {
             return true;

@@ -56,12 +56,7 @@ using (var serviceScope = builder.Services.BuildServiceProvider().CreateScope())
     }
 } 
 // */
-app.UseCors(options => {
-    options.AllowAnyMethod();
-    options.AllowAnyHeader();
 
-    options.AllowAnyOrigin();
-});
 app.UseAuthentication();
 app.UseAuthorization();
 // Configure the HTTP request pipeline.
